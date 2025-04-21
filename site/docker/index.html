@@ -1,0 +1,1247 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Docker - Документация Nasyrov</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Docker";
+        var mkdocs_page_input_path = "docker.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> Документация Nasyrov
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Главная</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">Docker</a>
+    <ul class="current">
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../bash/">Bash</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../ansible/">Ansible</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">Документация Nasyrov</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Docker</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="docker">Docker</h1>
+<h1 id="_1">Содержание</h1>
+<ul>
+<li>
+<p><a href="#начало-работы">Начало работы</a></p>
+<ul>
+<li><a href="#установка">Установка</a></li>
+<li><a href="#проверка-установки">Проверка установки</a></li>
+<li><a href="#настройка-после-установки">Настройка после установки</a></li>
+</ul>
+</li>
+<li>
+<p><a href="#словарь">Словарь</a></p>
+</li>
+<li>
+<p><a href="#команды-docker">Команды Docker</a></p>
+<ul>
+<li><a href="#клонирование-образа">Клонирование образа (pull)</a></li>
+<li><a href="#просмотр-контейнеров">Поиск образа (search)</a></li>
+<li><a href="#просмотр-контейнеров">Просмотр контейнеров (ps, inspect, logs)</a></li>
+<li><a href="#запуск-контейнера">Запуск контейнера (run)</a></li>
+<li><a href="#повторный-запуск-контейнера">Повторный запуск контейнера (start)</a></li>
+<li><a href="#присоединение-к-контейнеру">Присоединение к контейнеру (attach)</a></li>
+<li><a href="#остановка-контейнера">Остановка контейнера (stop, kill)</a></li>
+<li><a href="#удаление-контейнера-или-образа">Удаление контейнера или образа (rm)</a></li>
+<li><a href="#запуск-команд-в-контейнере">Запуск команд в контейнере (exec)</a></li>
+<li><a href="#сохранение-изменений-в-контейнере">Сохранение изменений в контейнере (commit)</a></li>
+<li><a href="#отправка-данных-на-docker-hub">Отправка данных на Docker Hub (login, push)</a></li>
+<li><a href="#копирование-файлов">Копирование файлов (cp)</a></li>
+<li><a href="#информация-об-использовании-диска">Информация об использовании диска (system df)</a></li>
+<li><a href="#очистка-docker">Очистка Docker (system df)</a></li>
+</ul>
+</li>
+<li>
+<p><a href="#dockerfile">Dockerfile</a></p>
+<ul>
+<li><a href="#from">FROM</a></li>
+<li><a href="#label">LABEL</a></li>
+<li><a href="#env">ENV</a></li>
+<li><a href="#workdir">WORKDIR</a></li>
+<li><a href="#copy">COPY</a></li>
+<li><a href="#add">ADD</a></li>
+<li><a href="#run">RUN</a></li>
+<li><a href="#cmd">CMD</a></li>
+<li><a href="#entrypoint">ENTRYPOINT</a></li>
+<li><a href="#volume">VOLUME</a></li>
+<li><a href="#expose">EXPOSE</a></li>
+<li><a href="#stopsignal">STOPSIGNAL</a></li>
+<li><a href="#user">USER</a></li>
+<li><a href="#arg">ARG</a></li>
+<li><a href="#healthcheck">HEALTHCHECK</a></li>
+<li><a href="#сборка-проекта">Сборка проекта</a></li>
+<li><a href="#уменьшение-размера-образа">Уменьшение размера образа</a></li>
+<li><a href="#многоэтапная-сборка">Многоэтапная сборка (multi-stage builds)</a></li>
+<li><a href="#dockerignore">Dockerignore</a></li>
+</ul>
+</li>
+<li>
+<p><a href="#docker-compose">Docker Compose</a></p>
+<ul>
+<li><a href="#установка-docker-compose">Установка Docker Compose</a></li>
+</ul>
+</li>
+<li>
+<p><a href="#команды-docker-compose">Команды Docker Compose</a></p>
+<ul>
+<li><a href="#сборка-проекта-docker-compose">Сборка проекта Docker Compose (build)</a></li>
+<li><a href="#запуск-проекта-docker-compose">Запуск проекта Docker Compose (up)</a></li>
+<li><a href="#остановка-проекта-docker-compose">Остановка проекта Docker Compose (stop, down)</a></li>
+<li><a href="#просмотр-состояния-docker-compose">Просмотр состояния Docker Compose (ps, logs, images)</a></li>
+<li><a href="#отображение-запущенных-процессов-docker-compose">Отображение запущенных процессов Docker Compose (top)</a></li>
+<li><a href="#просмотр-образов-docker-compose">Просмотр образов Docker Compose (images)</a></li>
+<li><a href="#выполнение-команды-внутри-контейнера-docker-compose">Выполнение команды внутри контейнера Docker Compose (exec)</a></li>
+<li><a href="#просмотр-версии-docker-compose">Просмотр версии Docker Compose (version)</a></li>
+<li><a href="#прочие-команды-docker-compose">Прочие команды Docker Compose</a></li>
+</ul>
+</li>
+<li>
+<p><a href="#docker-compose-file">Docker Compose file</a></p>
+<ul>
+<li><a href="#version">version</a></li>
+<li><a href="#services">services</a></li>
+<li><a href="#build">build</a></li>
+<li><a href="#image">image</a></li>
+<li><a href="#ports">ports</a></li>
+<li><a href="#expose">expose</a></li>
+<li><a href="#env_file">env_file</a></li>
+<li><a href="#environment">environment</a></li>
+<li><a href="#volumes">volumes</a></li>
+<li><a href="#container_name">container_name</a></li>
+<li><a href="#entrypoint">entrypoint</a></li>
+<li><a href="#command">command</a></li>
+<li><a href="#depends_on">depends_on</a></li>
+<li><a href="#restart">restart</a></li>
+<li><a href="#healthcheck">healthcheck</a></li>
+<li><a href="#extends">extends</a></li>
+</ul>
+</li>
+<li>
+<p><a href="#полезные-инструменты">Полезные инструменты</a></p>
+</li>
+</ul>
+<h1 id="_2">Начало работы</h1>
+<h2 id="_3">Установка</h2>
+<p><a href="#содержание">Наверх</a></p>
+<p><a href="https://docs.docker.com/engine/install/">Начальная установка Docker</a>.</p>
+<p>Для Windows и Mac OS систем, требуется установить Docker Desktop c
+<a href="https://www.docker.com/products/docker-desktop/">официального сайта</a>.</p>
+<h2 id="_4">Настройка после установки</h2>
+<p><a href="#содержание">Наверх</a></p>
+<p>Для Linux, чтобы каждый раз не нужно было писать sudo.</p>
+<pre><code>sudo groupadd docker
+sudo usermod -aG docker $USER
+</code></pre>
+<p>И дальше требуется перезагрузить компьютер или перелогиниться,
+чтобы изменения вступили в силу.</p>
+<p>Если требуется, чтобы Docker daemon автоматически загружался
+при старте операционной системы нужно указать это в настройках (systemd).</p>
+<pre><code>sudo systemctl enable docker.service
+sudo systemctl enable containerd.service
+</code></pre>
+<p>Для отключения этого.</p>
+<pre><code>sudo systemctl disable docker.service
+sudo systemctl disable containerd.service
+</code></pre>
+<h2 id="_5">Проверка установки</h2>
+<p>Для проверки работы Docker.</p>
+<pre><code>docker run hello-world
+docker ps -a
+</code></pre>
+<p>И после этого должен отображаться контейнер hello-world.</p>
+<p>Дальше этот образ не требуется, поэтому его можно удалять.</p>
+<pre><code>docker rm $(docker ps -aq)
+docker rmi hello-world
+</code></pre>
+<h1 id="_6">Словарь</h1>
+<p><a href="#содержание">Наверх</a></p>
+<ul>
+<li><code>host</code> — операционная система, на которую устанавливают Docker и на которой он работает.</li>
+<li><code>daemon</code> — служба, которая управляет Docker-объектами:
+сетями, хранилищами, образами и контейнерами.</li>
+<li><code>client</code> — консольный клиент, при помощи которого пользователь
+взаимодействует с Docker daemon и отправляет ему команды.</li>
+<li><code>image</code> — это неизменяемый образ, из которого разворачивается контейнер.</li>
+<li><code>container</code> — развёрнутое и запущенное приложение.</li>
+<li><code>volumes</code> - тома для постоянного хранения информации.</li>
+<li><code>registry</code> — репозиторий, в котором хранятся образы.</li>
+<li><code>Docker Hub</code> - Популярный публичный репозиторий, используемый по умолчанию в Docker.</li>
+<li><code>Dockerfile</code> — файл-инструкция для сборки образа.</li>
+<li><code>Docker Compose</code> — инструмент для управления несколькими контейнерами.
+Он позволяет создавать контейнеры и задавать их конфигурацию.</li>
+<li><code>Docker Desktop</code> — Это GUI-клиент, который отображает все сущности Docker.
+Работает на Linux, macOS и Windows.</li>
+</ul>
+<h1 id="docker_1">Команды Docker</h1>
+<h2 id="_7">Клонирование образа</h2>
+<p><a href="#содержание">Наверх</a></p>
+<p>Команда для клонирования образа.</p>
+<pre><code>docker pull &lt;image-name&gt;
+</code></pre>
+<p>По стандарту будет скачиваться latest версия,
+но через двоеточие можно указать версию image.</p>
+<pre><code>docker pull &lt;image-name&gt;:&lt;version&gt;
+</code></pre>
+<p>Склонированный образ является неизменяемым.</p>
+<p><em>Примеры:</em></p>
+<p>Клонирование образа nginx.</p>
+<pre><code>docker pull nginx:1.23.1
+</code></pre>
+<p>Клонирование образа debian.</p>
+<pre><code>docker pull debian:11.4-slim
+</code></pre>
+<h2 id="_8">Поиск образа</h2>
+<p><a href="#содержание">Наверх</a></p>
+<p>Для поиска образа используется команда <code>search</code>.
+Она будет выводить все найденные варианты с Docker Hub.</p>
+<pre><code>docker search &lt;image-name&gt;
+</code></pre>
+<p>Официальный сайт, где можно найти все контейнеры и описание к ним
+<a href="https://hub.docker.com/search?q=">Docker Hub</a>.</p>
+<p><em>Примеры:</em></p>
+<p>Поиск образов для debian.</p>
+<pre><code>docker search debian
+</code></pre>
+<h2 id="_9">Просмотр контейнеров</h2>
+<p><a href="#содержание">Наверх</a></p>
+<p>Команда <code>docker ps</code> показывает все запущенные контейнеры.</p>
+<p>Опции:
+* <code>a</code> - показать все контейнеры, даже остановленные.
+* <code>s</code> - показать размер контейнера.
+* <code>q</code> - показать только id контейнера.</p>
+<p><em>Примеры:</em></p>
+<p>Показать запущенные контейнеры.</p>
+<pre><code>docker ps
+</code></pre>
+<p>Показать все контейнеры.</p>
+<pre><code>docker ps -a
+</code></pre>
+<p>Показать все контейнеры и их размер.</p>
+<pre><code>docker ps -as
+</code></pre>
+<p>Вывести id запущенных контейнеров.</p>
+<pre><code>docker ps -q
+</code></pre>
+<h2 id="_10">Логи контейнера</h2>
+<p><a href="#содержание">Наверх</a></p>
+<p>Для просмотра логов, которые отдаёт контейнер есть атрибут <code>logs</code>.</p>
+<pre><code>docker logs &lt;container-name&gt;
+docker logs &lt;container-hash&gt;
+</code></pre>
+<h2 id="_11">Сборка проекта</h2>
+<p><a href="#содержание">Наверх</a></p>
+<p>Сборка всего проекта в один контейнер.</p>
+<p>Опции.</p>
+<ul>
+<li><code>-t / --tag</code> - тег для контейнера.</li>
+<li><code>-f / --file</code> - путь до Dockerfile.</li>
+<li><code>--squash</code> - все слои будут соединены в один.</li>
+</ul>
+<p>Точка в конце указывает текущую директорию как место сборки.
+Также можно указать путь до директории.</p>
+<pre><code>docker build -t &lt;username&gt;/&lt;container-name&gt;:&lt;vesion&gt; .
+</code></pre>
+<p>Полная документация по
+<a href="https://docs.docker.com/engine/reference/commandline/build/">docker build</a>.</p>
+<p><em>Примеры:</em></p>
+<p>Сборка контейнера с именем.</p>
+<pre><code>docker build -t kotdimos/my_nginx:1.23.1 .
+</code></pre>
+<p>Сборка контейнера из определённого Dockerfile.</p>
+<pre><code>docker build -t kotdimos/my_nginx:1.23.1 -f Dockerfile.nginx .
+</code></pre>
+<h2 id="_12">Просмотр информации об объекте</h2>
+<p><a href="#содержание">Наверх</a></p>
+<p><code>inspect</code> - позволяет просмотреть низкоуровневую информацию
+о различных объектах в docker.</p>
+<pre><code>docker inspect &lt;object&gt;
+</code></pre>
+<p><em>Примеры:</em></p>
+<p>Просмотреть данные контейнера.</p>
+<pre><code>docker inspect 852e9526a135
+</code></pre>
+<p>Просмотреть данные образа.</p>
+<pre><code>docker inspect mysql:8.0.31
+</code></pre>
+<p>Просмотреть данные network.</p>
+<pre><code>docker inspect network_deafault
+</code></pre>
+<p>Просмотреть данные volume.</p>
+<pre><code>docker inspect database
+</code></pre>
+<h2 id="_13">Просмотр образов</h2>
+<p><a href="#содержание">Наверх</a></p>
+<p>Для просмотра существующих образов.</p>
+<pre><code>docker images
+</code></pre>
+<h2 id="_14">Запуск контейнера</h2>
+<p><a href="#содержание">Наверх</a></p>
+<p>Изначальный запуск контейнера.
+Если образ никогда не был установлен,
+то сначала Docker скачает образ, а потом запустит его.</p>
+<pre><code>docker run &lt;image-name&gt;:&lt;version&gt;
+</code></pre>
+<p>Для работы внутри контейнера требуется указать
+флаги <code>-it</code> (-i interactive, -t - tty).</p>
+<pre><code>docker run -it &lt;image-name&gt;:&lt;version&gt;
+</code></pre>
+<p>Для старта работы контейнера в фоновом режиме
+нужно использовать флаг <code>-d</code> (-d - detach).</p>
+<pre><code>docker run -d &lt;image-name&gt;:&lt;version&gt;
+</code></pre>
+<p>При обычном запуске генерируется рандомное имя контейнера.
+Для того, чтобы дать самостоятельно имя требуется использовать флаг <code>--name</code>.</p>
+<pre><code>docker run -it --name &lt;container-name&gt; &lt;image-name&gt;:&lt;version&gt;
+</code></pre>
+<p>Для того, чтобы контейнеры взаимодействовали с основной машиной,
+нужно установить им порты, по которым они будут взаимодействовать.
+Для этого используется флаг <code>-p</code>,
+и после этого указывается порт вашей машины,
+и порт, который будет в докер контейнере.</p>
+<pre><code>docker run -d -p 8080:8080 &lt;image-name&gt;:&lt;version&gt;
+</code></pre>
+<p>Для того, чтобы передать контейнеру файлы основной машины,
+можно воспользоваться флагом <code>-v</code>, где требуется указать директорию,
+которая будет монтироваться, и потом, куда она будет монтироваться.</p>
+<pre><code>docker run -it -v &lt;path-to-host-directory&gt;:&lt;path-to-container-directory&gt; &lt;image-name&gt;:&lt;version&gt;
+</code></pre>
+<p><em>Примеры:</em></p>
+<p>Запуск nginx.</p>
+<pre><code>docker run nginx:1.23.1
+</code></pre>
+<p>Проброс портов для nginx.</p>
+<pre><code>docker run -p 80:80 nginx:1.23.1
+</code></pre>
+<p>Добавление имени к контейнеру.</p>
+<pre><code>docker run --name my_nginx -p 80:80 nginx:1.23.1
+</code></pre>
+<h2 id="_15">Повторный запуск контейнера</h2>
+<p><a href="#содержание">Наверх</a></p>
+<p>Если использовать <code>run</code>, то Docker будет создавать новый контейнер.
+Но если требуется запустить контейнер, который уже когда-то использовался,
+используется команда <code>start</code>.
+Запускать контейнер можно как и по имени контейнера, так и по его id.</p>
+<pre><code>docker start -it &lt;container-name&gt;
+docker start -it &lt;container-id&gt;
+</code></pre>
+<h2 id="_16">Присоединение к контейнеру</h2>
+<p><a href="#содержание">Наверх</a></p>
+<p>Команда для присоединения к рабочему контейнеру.</p>
+<pre><code>docker attach &lt;container-name&gt;
+docker attach &lt;container-id&gt;
+</code></pre>
+<p>Для выхода из него обычно используется <code>exit</code>.</p>
+<h2 id="_17">Остановка контейнера</h2>
+<p><a href="#содержание">Наверх</a></p>
+<p>Для остановки контейнера используется команда <code>stop</code>.</p>
+<pre><code>docker stop &lt;container-name&gt;
+docker stop &lt;container-id&gt;
+</code></pre>
+<p>Для остановки всех контейнеров.</p>
+<pre><code>docker stop $(docker ps -aq)
+</code></pre>
+<p>Принудительное завершение контейнера.</p>
+<pre><code>docker kill &lt;container-name&gt;
+docker kill &lt;container-id&gt;
+</code></pre>
+<h2 id="_18">Удаление контейнера или образа</h2>
+<p><a href="#содержание">Наверх</a></p>
+<p>Для удаления контейнера нужно использовать rm,
+удалять можно как и по имени контейнера, так и по его id.</p>
+<pre><code>docker rm &lt;container-id&gt;
+docker rm &lt;container-name&gt;
+</code></pre>
+<p>Если требуется удалить все контейнеры.</p>
+<pre><code>docker rm $(docker ps -aq)
+</code></pre>
+<p>Если требуется удалить контейнеры по имени образа.</p>
+<pre><code>docker rm $(docker ps -a | awk '$2=="&lt;image-name&gt;" { print $1 }')
+</code></pre>
+<p>Для удаления образа нужно использовать rmi,
+при этом все контейнеры основанные на нём должны быть удалены.</p>
+<pre><code>docker rmi &lt;image-name&gt;
+</code></pre>
+<p>Для удаления всех образов.</p>
+<pre><code>docker rmi $(docker images -q)
+</code></pre>
+<h2 id="_19">Запуск команд в контейнере</h2>
+<p><a href="#содержание">Наверх</a></p>
+<p>Для запуска команд используется команда <code>exec</code>.</p>
+<pre><code>docker exeс -it &lt;container-name&gt; &lt;command&gt;
+docker exeс -it &lt;container-id&gt; &lt;command&gt;
+</code></pre>
+<p>Если нужно запусить команду под определённым пользователем используется флаг <code>-u</code>.</p>
+<pre><code>docker exec -u &lt;user-id&gt; -it &lt;container-id&gt; &lt;command&gt;
+docker exec -u &lt;user-name&gt; -it &lt;container-id&gt; &lt;command&gt;
+</code></pre>
+<p><em>Примеры:</em></p>
+<p>Просмотреть корректность заполнения конфига в nginx.</p>
+<pre><code>docker exec -it 17911b46528e nginx -t
+</code></pre>
+<p>Вход под root пользователем в контейнере.</p>
+<pre><code>docker exec -u 0 -it b6910f29ad52 /bin/bash
+</code></pre>
+<h2 id="_20">Сохранение изменений в контейнере</h2>
+<p><a href="#содержание">Наверх</a></p>
+<p>Для сохранения изменений требуется его закоммитить.</p>
+<pre><code>docker commit &lt;container-name&gt; &lt;username&gt;/&lt;container-name&gt;:&lt;vesion&gt;
+docker commit &lt;container-id&gt; &lt;username&gt;/&lt;container-name&gt;:&lt;vesion&gt;
+</code></pre>
+<h2 id="docker-hub">Отправка данных на Docker Hub</h2>
+<p><a href="#содержание">Наверх</a></p>
+<p>Для отправки данных требуется авторизация</p>
+<pre><code>docker login
+</code></pre>
+<p>После этой команды консоль запрашивает логин и пароль для авторизации
+на сайте <a href="https://hub.docker.com/">docker</a>.</p>
+<p>После этого можно передать данные на Docker Hub.</p>
+<pre><code>docker push
+</code></pre>
+<h2 id="_21">Копирование файлов</h2>
+<p><a href="#содержание">Наверх</a></p>
+<p>Команда <code>cp</code> позволяет копировать файлы к контейнер и из контейнера.</p>
+<p>Опции:
+* <code>-a / --archive</code> - копирование всей инфромации (uid/gid).
+* <code>-L / --follow-link</code> - следовать символьной ссылке.
+* <code>-q / --quiet</code> - подавить вывод во время копирования.</p>
+<p><em>Примеры:</em></p>
+<p>Копирование файла в контейнер.</p>
+<pre><code>docker cp ./file_name container1:/home/user/file_name
+</code></pre>
+<p>Копирование файла из контейнера.</p>
+<pre><code>docker cp container1:/home/user/file_name ./file_name
+</code></pre>
+<h2 id="_22">Информация об использовании диска</h2>
+<p><a href="#содержание">Наверх</a></p>
+<p>Команда, для того чтобы получить сколько использует docker дискового пространства.</p>
+<pre><code>docker system df
+</code></pre>
+<p>Подробная информация об каждом объекте.</p>
+<pre><code>docker system df -v
+</code></pre>
+<h2 id="docker_2">Очистка Docker</h2>
+<p><a href="#содержание">Наверх</a></p>
+<p>Docker при долгом использовании очень сильно загрезняет диск.</p>
+<p>Очистка всего docker от мусора.</p>
+<pre><code>docker system prune -a
+</code></pre>
+<p>Будут удалены:
+* все остановленные контейнеры.
+* все сети, не используемые хотя бы одним контейнером.
+* все тома, не используемые хотя бы одним контейнером.
+* все образы, с которыми не связан хотя бы один контейнер.
+* весь кэш сборки.</p>
+<p>Такой вариант может быть довольно жёстким для очищения.</p>
+<p>Отдельное удалеение:</p>
+<p>Удаление всех dangling образов.</p>
+<pre><code>docker image prune
+</code></pre>
+<p>Удаление всех неиспользуемых сетей.</p>
+<pre><code>docker network prune
+</code></pre>
+<p>Удаление volumes.</p>
+<pre><code>docker volume prune
+</code></pre>
+<p>Удаление всех остановленных контейнеров.</p>
+<pre><code>docker container prune
+</code></pre>
+<h1 id="dockerfile">Dockerfile</h1>
+<p><a href="#содержание">Наверх</a></p>
+<p>Dockerfile является настройкой собственного контейнера.
+Каждая новая инструкция будет создавать новый слой контейнера.</p>
+<p><a href="https://docs.docker.com/engine/reference/builder/">Документация по всем командам</a>.</p>
+<h2 id="from">FROM</h2>
+<p><a href="#содержание">Наверх</a></p>
+<p>Наследование от другого образа, с которого будет происходить старт.</p>
+<pre><code>FROM &lt;image-name&gt;:&lt;version&gt;
+</code></pre>
+<p><em>Примеры.</em></p>
+<pre><code>FROM ubuntu:20.04
+
+FROM debian:11.4-slim
+</code></pre>
+<h2 id="label">LABEL</h2>
+<p><a href="#содержание">Наверх</a></p>
+<p>Метаданные для образа.</p>
+<pre><code>LABEL &lt;key&gt;=&lt;value&gt; [&lt;key&gt;=&lt;value&gt; ...]
+</code></pre>
+<p><em>Примеры.</em></p>
+<pre><code>LABEL maintainer="user@example.org" version="1.1.1"
+</code></pre>
+<h2 id="env">ENV</h2>
+<p><a href="#содержание">Наверх</a></p>
+<p>Регистрация переменной окружения.</p>
+<pre><code>ENV &lt;key&gt; &lt;value&gt;
+</code></pre>
+<p><em>Примеры.</em></p>
+<pre><code>ENV LEVEL debug
+ENV NGINX_VERSION=1.23.1
+</code></pre>
+<h2 id="workdir">WORKDIR</h2>
+<p><a href="#содержание">Наверх</a></p>
+<p>Указания рабочей директории, в какой директории будет находиться контейнер,
+от куда будет запуск команд.
+Если директория не создана, тогда docker сам создаст эту директорию.</p>
+<pre><code>WORKDIR &lt;path&gt;
+</code></pre>
+<p><em>Примеры.</em></p>
+<pre><code>WORKDIR /home/user
+WORKDIR /app
+</code></pre>
+<h2 id="copy">COPY</h2>
+<p><a href="#содержание">Наверх</a></p>
+<p>Копирование файлов из хоста в образ.
+Копирование файлов будет происходить из хоста,
+где находится Dockerfile и ниже, выше подниматься нельзя.</p>
+<pre><code>COPY &lt;src&gt; [&lt;src&gt; ...] &lt;dst&gt;
+# &lt;src&gt; - файл или директория внутри build контекста
+# &lt;dst&gt; - файл или директория внутри контейнеры
+</code></pre>
+<p><em>Примеры.</em></p>
+<pre><code>COPY . /home/user/
+COPY nginx_config/ /home/user/nginx_config
+</code></pre>
+<h2 id="add">ADD</h2>
+<p><a href="#содержание">Наверх</a></p>
+<p>Добавление файлов работают ровно так же, как и COPY,
+но также можно добавлять вместо локальных файлов файлы из интернета.</p>
+<pre><code>ADD &lt;src&gt; [&lt;src&gt; ...] &lt;dst&gt;
+# &lt;src&gt; - файл или директория внутри build контекста
+# &lt;dst&gt; - файл или директория внутри контейнеры
+</code></pre>
+<p><em>Примеры.</em></p>
+<pre><code># добавление по url
+ADD &lt;url&gt; /home/user/
+</code></pre>
+<h2 id="run">RUN</h2>
+<p><a href="#содержание">Наверх</a></p>
+<p>Вызов команд. Для уменьшения слоев можно писать несколько команд в одном запуске.</p>
+<pre><code>RUN &lt;command&gt;
+</code></pre>
+<p><em>Примеры.</em></p>
+<pre><code>RUN apt update &amp;&amp; apt install -y nginx
+
+RUN apt install gcc -y &amp;&amp; \
+    gcc -Wall -o main main.c
+</code></pre>
+<h2 id="cmd">CMD</h2>
+<p><a href="#содержание">Наверх</a></p>
+<p>Указание какая команда будет выполняться при старте контейнера.</p>
+<pre><code>CMD &lt;command&gt;
+</code></pre>
+<p><em>Примеры.</em></p>
+<pre><code>CMD /start.sh
+
+CMD ["nginx", "-g", "daemon off;"]
+</code></pre>
+<h2 id="entrypoint">ENTRYPOINT</h2>
+<p><a href="#содержание">Наверх</a></p>
+<p>Аналог CMD - ENTRYPOINT.</p>
+<pre><code>ENTRYPOINT &lt;command&gt;
+</code></pre>
+<p><em>Примеры.</em></p>
+<pre><code>ENTRYPOINT /start.sh
+
+ENTRYPOINT ["nginx", "-g", "daemon off;"]
+</code></pre>
+<h2 id="volume">VOLUME</h2>
+<p><a href="#содержание">Наверх</a></p>
+<p>Указание точки монтирования томов внутри образа.</p>
+<pre><code>VOLUME &lt;dst&gt; [&lt;dst&gt; ...]
+# &lt;dst&gt; - директория монтирования для volume'a
+</code></pre>
+<p><em>Примеры.</em></p>
+<pre><code>VOLUME /app /db /data
+
+VOLUME ["/var/log"]
+</code></pre>
+<h2 id="expose">EXPOSE</h2>
+<p><a href="#содержание">Наверх</a></p>
+<p>Указание портов, которые слушает сервис в запущенном контейнере.</p>
+<pre><code>EXPOSE &lt;port&gt;[/&lt;proto&gt;] [&lt;port&gt;[/&lt;proto&gt;] ...]
+# &lt;port&gt; - порт сервиса внутри контейнера
+# &lt;proto&gt; - tcp или udp
+</code></pre>
+<p><em>Примеры.</em></p>
+<pre><code>EXPOSE 8080/tcp 3389/udp
+EXPOSE 8080
+EXPOSE 80 443
+</code></pre>
+<h2 id="stopsignal">STOPSIGNAL</h2>
+<p><a href="#содержание">Наверх</a></p>
+<p>Указывается сигнал, который посылается процессу при остановке контейнера.</p>
+<pre><code>STOPSIGNAL &lt;sig&gt;
+</code></pre>
+<p><em>Примеры.</em></p>
+<pre><code>STOPSIGNAL SIGKILL
+</code></pre>
+<h2 id="user">USER</h2>
+<p><a href="#содержание">Наверх</a></p>
+<p>Имя (ID) пользователя, от которого выполняются директивы RUN, CMD, ENTRYPOINT.</p>
+<pre><code>USER &lt;user&gt;[:&lt;group&gt;]
+</code></pre>
+<p><em>Примеры.</em></p>
+<pre><code>USER user
+USER user:user
+</code></pre>
+<h2 id="arg">ARG</h2>
+<p><a href="#содержание">Наверх</a></p>
+<p>Почти как ENV, но задаёт параметры только для docker build.
+Если в ENV мы задавали константные переменные, то здесь они будут задаваться динамически.</p>
+<pre><code>ARG &lt;variable&gt;=&lt;value&gt;
+</code></pre>
+<p><em>Примеры.</em></p>
+<pre><code>ARG FOO=bar
+</code></pre>
+<h2 id="healthcheck">HEALTHCHECK</h2>
+<p><a href="#содержание">Наверх</a></p>
+<p>Команда, которой можно проверить состояние сервиса.</p>
+<pre><code>HEALTHCHECK &lt;command&gt;
+</code></pre>
+<h2 id="_23">Уменьшение размера образа</h2>
+<p><a href="#содержание">Наверх</a></p>
+<p>1) Избегать установки лишних пакетов и упаковки лишних данных в образы.
+2) Использовать связанные команды для RUN инструкций.</p>
+<pre><code class="language-Docker">RUN command_1 &amp;&amp; command_2 &amp;&amp; command_3
+</code></pre>
+<p>Или можно привести к более читаемому виду</p>
+<pre><code class="language-Docker">RUN command_1 &amp;&amp; \
+    command_2 &amp;&amp; \
+    command_3
+</code></pre>
+<p>3) Следить за последовательностью описания Dockerfile.
+4) Уменьшать количество слоёв.
+5) Продумывать порядок слоёв -
+сначала выполняются слои которые не будут обновляться после каждой пересборки,
+после, те которые могут подвергаться изменениям.
+6) Один контейнер - одна задача.
+7) Чистить за собой в контейнере.
+8) Использовать multi-stage сборки (для компилируемых языков).
+9) Использовать scratch образ для собственных приложений.</p>
+<p><code>scratch</code> - зарезервированный образ Docker, который является нулевым образом.</p>
+<h2 id="_24">Многоэтапная сборка</h2>
+<p><a href="#содержание">Наверх</a></p>
+<p>Многоэтапная сборка (multi-stage build) -
+предназначена для оптимизации конечного контейнера.</p>
+<blockquote>
+<p>Что было до появления многоэтапной сборки?</p>
+</blockquote>
+<p>Создавались 2 Dockerfile-а, один для разработки
+(содержит все необходимое для создания вашего приложения),
+другой оптимизированный для создания итогового образа,
+Эта практика в свое время получила название «шаблон строителя».
+Однако, поддерживать в актуальном состоянии два Dockerfile-а очень трудно.
+От этой концепции отказались когда пришла многоэтапная сборка.</p>
+<blockquote>
+<p>Зачем нужна многоэтапная сборка?</p>
+</blockquote>
+<p>Многоэтапная сборка нужна для оптимизации конечного контейнера.
+Суть подхода заключается в том,
+чтобы не заботиться о количестве получающихся слоев
+в процессе сборки вашего приложения
+и копировать результаты сборки из одного образа в другой.</p>
+<p>К примеру, при компиляции приложения на c++,
+требуются специальные библиотеки, компилятор и исходный код,
+а в конце мы получаем лишь скомпилированный файл,
+который весит пару МиБ.
+И тогда можно просто перкопировать скомпилированный файл на другой контейнер,
+и в итоге мы получим очень легковестный контейнер.</p>
+<p>Для копирования файлов с одного контейнера
+на другой используется команда <code>COPY</code> с опцией <code>--from</code>,
+и через равно указывается номер контейнера от куда будет происходить копирование.</p>
+<pre><code class="language-dockerfile">COPY --from=0 /go/main .
+</code></pre>
+<p>К опции <code>FROM</code> можно добавить псевдоним
+для более удобного понимания от куда идёт копирование.</p>
+<p><em>Пример:</em></p>
+<pre><code class="language-dockerfile">FROM golang:latest as build
+COPY . .
+RUN go build ./src/main.go
+
+FROM alpine:latest
+COPY --from=build /go/main .
+CMD [&quot;./main&quot;]
+</code></pre>
+<h2 id="dockerignore">Dockerignore</h2>
+<p><a href="#содержание">Наверх</a></p>
+<p>Файл <code>.dockerignore</code> преднзначен для исключения файлов и директорий.
+Это помогает избежать ненужной отправки больший и конфиденциальных файлов и каталогов.</p>
+<table>
+<thead>
+<tr>
+<th>Знак</th>
+<th style="text-align: left;">Описание</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>#</td>
+<td style="text-align: left;">Комментарий</td>
+</tr>
+<tr>
+<td>*</td>
+<td style="text-align: left;">Ноль, один или более символов</td>
+</tr>
+<tr>
+<td>**</td>
+<td style="text-align: left;">Любое количество директорий, включая ноль</td>
+</tr>
+<tr>
+<td>?</td>
+<td style="text-align: left;">Подстановка одного символа</td>
+</tr>
+<tr>
+<td>!</td>
+<td style="text-align: left;">Исключение из исключений</td>
+</tr>
+</tbody>
+</table>
+<p><em>Примеры:</em></p>
+<p>Комментарий.</p>
+<pre><code># comment
+</code></pre>
+<p>Игноривание всех файлов заканчивающихся на .log.</p>
+<pre><code>*.log
+</code></pre>
+<p>Игноривание всех файлов заканчивающихся на .log во всех директориях.</p>
+<pre><code>**/*.log
+</code></pre>
+<p>Исключение из исключений.</p>
+<pre><code># Игноривание всех файлов *.md
+*.md
+# Но включение файла README.md
+!README.md
+</code></pre>
+<h1 id="docker-compose">Docker Compose</h1>
+<p><a href="#содержание">Наверх</a></p>
+<p>Docker Compose используется для одновременного управления несколькими контейнерами,
+входящими в состав приложения.
+Этот инструмент предлагает те же возможности,
+что и Docker, но позволяет работать с более сложными приложениями.</p>
+<p>Описывается всё в файле <code>docker-compose.yml</code>.
+Это файл, который будет содержать инструкции, необходимые для запуска и настройки сервисов.
+Обычно он хранится в корневой директории проекта.</p>
+<h2 id="docker-compose_1">Установка Docker Compose</h2>
+<p><a href="#содержание">Наверх</a></p>
+<p>Один из вариантов установки docker compose, это установка Docker Desktop.
+Он будет содержать в себе и docker и docker-compose.
+Ссылка на установку <a href="https://www.docker.com/products/docker-desktop/">Docker Desktop</a>.</p>
+<p>Можно установить <code>docker-compose</code> используя пакетный менеждер дистрибутива.
+Это отдельный файл, который является обёрткой над docker.</p>
+<p>Так же существует специальный плагин для docker - <code>docker-compose-plugin</code>.
+Он позволяет использовать команду не <code>docker-compose</code>, а <code>docker compose</code>,
+команда будет являться не отдельным файлом, а расширением docker.
+<a href="https://docs.docker.com/compose/install/linux/">Более подробная инструкция по установке</a>.</p>
+<h1 id="docker-compose_2">Команды Docker Compose</h1>
+<p><a href="#содержание">Наверх</a></p>
+<p>Docker Compose имеет общие опции для работы со всеми командами.</p>
+<p>Опции:
+* <code>-f / --file &lt;docker-compose-specify-file&gt;</code> -
+если требуется использовать другой файл.
+docker compose обычно запускает только файл
+<code>docker-compose.yml</code> или <code>docker-compose.override.yml</code>,
+* <code>--env-file</code> - указать альтернативный env файл.
+По умолчанию docker compose использует файл <code>.env</code>.
+* <code>--project-name / -p</code> - указать имя проекта.
+* <code>--parallel &lt;int&gt;</code> - контролировать максимальное количество параллелизма.
+для неограниченного количества <code>-1</code>. По умолчанию <code>-1</code>.</p>
+<h2 id="docker-compose_3">Сборка проекта Docker Compose</h2>
+<p><a href="#содержание">Наверх</a></p>
+<p>Сборка проекта.</p>
+<pre><code>docker compose build
+</code></pre>
+<p>Опции:
+* <code>--no-cache</code> - не использовать кэш при сборке образа.
+* <code>--pull</code> - стараться всегда получить более новую версию.
+* <code>--quiet / -q</code> - ничего не выводить на stdout.
+* <code>--build-arg</code> - установить параметры сборки.</p>
+<h2 id="docker-compose_4">Запуск проекта Docker Compose</h2>
+<p><a href="#содержание">Наверх</a></p>
+<p>Команда <code>up</code> запускает описанные контейнеры.</p>
+<p>Опции:
+* <code>--build</code> - перед запуском, происходит сборка контейнеров.
+* <code>-d</code> - запуск контейнеров в фоновом режиме.
+* <code>--no-build</code> - не создавать образ, даже если он отсутствует.
+* <code>--attach</code> - прикрепиться сервисному выходу.
+* <code>--attach-dependencies</code> - присойдениться к зависимым контейнерам.
+* <code>--no-recreate</code> - если контейнеры существуют, не пересоздовать их заново.
+* <code>--pull</code> - вытянуть образы перед запуском.
+* <code>--abort-on-container-exit</code> - останавливает все контейнеры,
+если какой-то контейнер был остановлен.
+* <code>--force-recreate</code> - пересоздать контейнер, даже если его конфигурация не изменилась.
+* <code>--remove-orphans</code> - удалить контейнеры, если они были не определены в compose файле.</p>
+<p><em>Примеры:</em></p>
+<p>Запуск проекта.</p>
+<pre><code>docker compose up
+</code></pre>
+<p>Запустить проект и дополнительно собрать его.</p>
+<pre><code>docker compose up --build
+</code></pre>
+<p>Запустить проект в фоновом режиме.</p>
+<pre><code>docker compose up -d
+</code></pre>
+<p>Запустить проект, собрать его и в фоновом режиме.</p>
+<pre><code>docker compose up --build
+</code></pre>
+<h2 id="docker-compose_5">Остановка проекта Docker Compose</h2>
+<p><a href="#содержание">Наверх</a></p>
+<p>Остановка проекта.</p>
+<pre><code>docker compose stop
+</code></pre>
+<p>Остановить проект и удалить контейнеры.</p>
+<pre><code>docker compose down
+</code></pre>
+<h2 id="docker-compose_6">Просмотр состояния Docker Compose</h2>
+<p><a href="#содержание">Наверх</a></p>
+<p>Посмотр логов сервиса.</p>
+<pre><code>docker compose logs -f &lt;service-name&gt;
+</code></pre>
+<p>Вывод списка контейнеров.</p>
+<pre><code>docker compose ps
+</code></pre>
+<h2 id="docker-compose_7">Отображение запущенных процессов Docker Compose</h2>
+<p><a href="#содержание">Наверх</a></p>
+<p>Команда показывает какие процессы запущены в каждом запущенном контейнере.</p>
+<pre><code>docker compose top
+</code></pre>
+<h2 id="docker-compose_8">Просмотр образов Docker Compose</h2>
+<p><a href="#содержание">Наверх</a></p>
+<p>Команда для просмотра информации о образах.</p>
+<pre><code>docker compose images
+</code></pre>
+<h2 id="docker-compose_9">Выполнение команды внутри контейнера Docker Compose</h2>
+<p><a href="#содержание">Наверх</a></p>
+<p>Выполнение команды в контейнере.</p>
+<pre><code>docker compose exec &lt;service-name&gt; &lt;command&gt;
+</code></pre>
+<h2 id="docker-compose_10">Просмотр версии Docker Compose</h2>
+<p><a href="#содержание">Наверх</a></p>
+<p><code>version</code> - предназначен для просмотра версии docker compose.</p>
+<pre><code>docker compose version
+</code></pre>
+<h2 id="docker-compose_11">Прочие команды Docker Compose</h2>
+<p><a href="#содержание">Наверх</a></p>
+<p>Справка по всем командам.</p>
+<pre><code>docker compose --help
+</code></pre>
+<h1 id="docker-compose-file">Docker Compose file</h1>
+<p><a href="#содержание">Наверх</a></p>
+<p>Полная документация по <a href="https://docs.docker.com/compose/compose-file">docker compose file</a>.</p>
+<p><a href="https://docs.docker.com/compose/compose-file/compose-file-v3/">Документация по 3 версии</a>.</p>
+<h2 id="version">version</h2>
+<p><a href="#содержание">Наверх</a></p>
+<p>В начале файла указывается версия compose.
+В различных версиях добавлены/удалены/изменены службы.
+Все различные
+<a href="https://docs.docker.com/compose/compose-file/compose-versioning/">версии и изменения</a>.</p>
+<pre><code>version: "3.9"
+</code></pre>
+<p>При указании используемой версии файла compose,
+при версиях 2 и 3, нужно указать как старший, так и дополнительный номера.
+Если дополнительная версия не указана,
+по умолчанию используется 0, а не последняя дополнительная версия.</p>
+<pre><code class="language-Docker">version: &quot;3&quot;
+# эквивалент вот этому
+version: &quot;3.0&quot;
+</code></pre>
+<h2 id="services">services</h2>
+<p><a href="#содержание">Наверх</a></p>
+<p><code>services</code> - в данном блоке описывается список сервисов.</p>
+<pre><code class="language-Docker">services:
+  name_1:
+    ...
+  name_2:
+    ...
+  name_3:
+    ...
+</code></pre>
+<h2 id="build">build</h2>
+<p><a href="#содержание">Наверх</a></p>
+<p><code>build</code> - указание пути, где лежит Dockerfile для определенного проекта
+и передача определённых аргументов.</p>
+<p><em>Примеры:</em></p>
+<p>В текущей директории будет искаться файл <code>Dockerfile</code> и запускаться.</p>
+<pre><code>build: .
+</code></pre>
+<p>Будет запущен <code>Dockerfile.nginx</code> в директории <code>nginx</code>.</p>
+<pre><code>build: ./nginx/Dockerfile.nginx
+</code></pre>
+<p>Так же можно это разбить.</p>
+<pre><code>build:
+  context: ./nginx
+  dockerfile: Dockerfile.nginx
+</code></pre>
+<p>Для передачи аргументов используется <code>args</code>.</p>
+<pre><code>build:
+  context: ./nginx
+  args:
+    ARG1: arg1
+    ARG2: arg2
+</code></pre>
+<p>Либо такой вариант.</p>
+<pre><code>build:
+  context: ./nginx
+  args:
+    - ARG1=arg1
+    - ARG2=arg2
+</code></pre>
+<h2 id="image">image</h2>
+<p><a href="#содержание">Наверх</a></p>
+<p><code>image</code> - образ с которого будет запускаться контейнер.</p>
+<pre><code>image: image:version
+</code></pre>
+<p><em>Примеры:</em></p>
+<p>Запуск от определённого image.</p>
+<pre><code>image: nginx:1.23.2
+</code></pre>
+<h2 id="ports">ports</h2>
+<p><a href="#содержание">Наверх</a></p>
+<p><code>ports</code> - Открытие контейнерных портов, для работы с хостом.</p>
+<pre><code>ports:
+  - &lt;host-port&gt;:&lt;container-port&gt;
+</code></pre>
+<p><em>Примеры.</em></p>
+<p>Открытие порта.</p>
+<pre><code>ports:
+  - 80:80
+</code></pre>
+<p>Открытие нескольких портов.</p>
+<pre><code>ports:
+  - 8080:80
+  - 6060:6060
+</code></pre>
+<h2 id="expose_1">expose</h2>
+<p><a href="#содержание">Наверх</a></p>
+<p><code>expose</code> - открывает порты, не окрывая из на хостовой машине.
+Будут доступны только связным службам.</p>
+<pre><code>expose:
+  - &lt;port&gt;
+</code></pre>
+<p><em>Пример.</em></p>
+<pre><code>expose:
+  - "3000"
+  - "8000"
+</code></pre>
+<h2 id="env_file">env_file</h2>
+<p><a href="#содержание">Наверх</a></p>
+<p><code>env_file</code> - Добавление переменные среды из файла.
+Может быть одним значением или списком.</p>
+<pre><code>env_file: &lt;env-file&gt;
+
+env_file:
+  - &lt;env-file-1&gt;
+  - &lt;env-file-2&gt;
+  - &lt;env-file-3&gt;
+
+
+VARIABLE=VALUE
+</code></pre>
+<p><em>Примеры.</em></p>
+<p>Указания файлов.</p>
+<pre><code>env_file:
+  - .env
+  - nginx/.env
+</code></pre>
+<p>Сам env файл.</p>
+<pre><code>MY_VAR=value
+NGINX_VERSION=1.23.1
+</code></pre>
+<h2 id="environment">environment</h2>
+<p><a href="#содержание">Наверх</a></p>
+<p><code>environment</code> - Добавление переменных для среды.</p>
+<p><em>Примеры:</em></p>
+<p>Указания переменных.</p>
+<pre><code>environment:
+  SHOW: 'true'
+  PASSWORD: "PASSWORD"
+</code></pre>
+<p>Указания переменных в другом формате yml.</p>
+<pre><code>environment:
+  - SHOW=true
+  - PASSWORD="password"
+</code></pre>
+<h2 id="volumes">volumes</h2>
+<p><a href="#содержание">Наверх</a></p>
+<p><code>volumes</code> - Указание точки монтирования томов внутри образа.</p>
+<p><em>Примеры:</em></p>
+<p>Монтирование по абсолютному пути.</p>
+<pre><code>volumes:
+  - /opt/data:/var/lib/mysql
+</code></pre>
+<p>Монтирование относительно compose файла.</p>
+<pre><code>  - ./cache:/tmp/cache
+</code></pre>
+<p>Так же можно указывать именнованный том.</p>
+<p>Сначала требуется создать.
+В конце после всех services создаются все нужные volumes.</p>
+<pre><code>volumes:
+  name_volume:
+</code></pre>
+<p>И дальше в нужном сервисе вставляется нужный volume.</p>
+<pre><code>volumes:
+  - name_volume:/var/lib/mysql
+</code></pre>
+<p>Все созданые volumes хранятся по пути <code>/var/lib/docker/volumes</code>.</p>
+<p>У volume есть параметры, которые монжо конфигурировать его.</p>
+<p><code>name</code> - указание имени volume, с которым он будет создоваться.</p>
+<p><code>external</code> - если стоит true, значит он не будет создавать новый volume,
+а будет искать готовый.
+Если не указывается параметр <code>name</code>, тогда требуется указать его в external.</p>
+<p><em>Примеры:</em></p>
+<p>Указание имени volume.</p>
+<pre><code>volumes:
+  mysql_database:
+    name: mysql_database
+</code></pre>
+<p>Использовать готовый volume.</p>
+<pre><code>volumes:
+  mysql_database:
+    external:
+      name: mysql_database
+</code></pre>
+<p>Использование external вместе с name.</p>
+<pre><code>volumes:
+  mysql_database:
+    external: true
+    name: mysql_database
+</code></pre>
+<h2 id="container_name">container_name</h2>
+<p><a href="#содержание">Наверх</a></p>
+<p><code>container_name</code> - Собственное имя контейнера, вместо генерации по умолчанию.</p>
+<pre><code>container_name: &lt;container-name&gt;
+</code></pre>
+<p><em>Пример.</em></p>
+<pre><code>сontainer_name: nginx_container
+</code></pre>
+<h2 id="entrypoint_1">entrypoint</h2>
+<p><a href="#содержание">Наверх</a></p>
+<p><code>entrypoint</code> - Переопределение начального запуска.</p>
+<pre><code>entrypoint: &lt;command&gt;
+
+# Так же можно задать списком
+entrypoint: ["&lt;command&gt;", "&lt;arg1&gt;", "&lt;arg2&gt;"]
+</code></pre>
+<p><em>Примеры:</em></p>
+<pre><code>entrypoint: "nginx -g daemon off;"
+entrypoint: ["nginx", "-g", "daemon off;"]
+</code></pre>
+<h2 id="command">command</h2>
+<p><a href="#содержание">Наверх</a></p>
+<p><code>command</code> - Переопределение команды для запуска.</p>
+<pre><code>command: "&lt;command&gt;"
+
+# Так же можно задать списком
+command: ["&lt;command&gt;", "&lt;arg1&gt;", "&lt;arg2&gt;"]
+</code></pre>
+<p><em>Примеры:</em></p>
+<pre><code>command: "nginx -g daemon off;"
+command: ["nginx", "-g", "daemon off;"]
+</code></pre>
+<h2 id="depends_on">depends_on</h2>
+<p><a href="#содержание">Наверх</a></p>
+<p><code>depends_on</code> - зависимости запуска и завершения работы между службами.</p>
+<p><em>Примеры:</em></p>
+<p>Служба name_1 зависит от name_2 и name_3,
+т.е. будет запускаться после них.</p>
+<pre><code>version "3.9"
+
+services:
+  name_1:
+    depends_on:
+      - name_2
+      - name_3
+  name_2:
+    ...
+  name_3:
+    ...
+</code></pre>
+<h2 id="restart">restart</h2>
+<p><a href="#содержание">Наверх</a></p>
+<p><code>restart</code> - Политика перезапуска контейнера.</p>
+<p>Существуют 4 варианта:
+* <code>no</code> - не перезапускает контейнер (по умолчанию).
+* <code>always</code> - контейнер будет всегда перезапускается.
+* <code>on-failure</code> - при ошибке будет перезапускаться контейнер.
+* <code>unless-stopped</code> - всегда перезапускается контейнер,
+если контейнер не остановлен (вручную или другим образом).</p>
+<p><em>Примеры:</em></p>
+<pre><code>restart: on-failure
+</code></pre>
+<h2 id="healthcheck_1">healthcheck</h2>
+<p><a href="#содержание">Наверх</a></p>
+<p><code>healthcheck</code> - проверка, которая запускается, чтобы определить,
+являются ли контейнеры для этой службы <em>работоспособными</em>.</p>
+<p>Параметры для healthcheck:
+* <code>interval</code> - через какой период будет запускаться проверка.
+* <code>timeout</code> - если проверка длится больше указанного времени,
+значит контейнер не работоспособен.
+* <code>retries</code> - сколько раз запускается проверка,
+чтобы понять что контейнер не работает.
+* <code>start_period</code> - время для запуска контейнера,
+перед запуском проверок работоспособности.</p>
+<p>interval, timeout и start_period имеют специфичный вариант написания.
+Поддерживаемые единицы измерения: us, ms, s, m и h.</p>
+<p>Примеры написания:</p>
+<pre><code>2.5s
+10s
+1m30s
+2h32m
+5h34m56s
+</code></pre>
+<p><em>Пример:</em></p>
+<pre><code>healthcheck:
+  test: ["CMD", "curl", "-f", "http://localhost"]
+  interval: 1m30s
+  timeout: 10s
+  retries: 3
+  start_period: 40s
+</code></pre>
+<h2 id="extends">extends</h2>
+<p><a href="#содержание">Наверх</a></p>
+<p><code>extends</code> - позволяет использовать общие конфигурации
+для разных файлов или даже для разных проектов.
+Расширение служб полезно, если есть несколько служб,
+повторно использующих общий набор параметров конфигурации.</p>
+<p>Шаблон.</p>
+<pre><code>extends:
+  file: /path/to/file
+  service: &lt;service-name&gt;
+</code></pre>
+<p><em>Примеры:</em></p>
+<p>Использование сервиса из другого файла.</p>
+<p>first-service.yml</p>
+<pre><code>services:
+  webapp:
+    build: .
+    ports:
+      - "8000:8000"
+</code></pre>
+<p>second-service.yml</p>
+<pre><code>services:
+  web:
+    extends:
+      file: first-service.yml
+      service: webapp
+</code></pre>
+<h1 id="_25">Полезные инструменты</h1>
+<p><a href="#содержание">Наверх</a></p>
+<ul>
+<li><code>ctop</code> - удобный просмотр контейнеров, какие запущены,
+какие простаивают, сколько памяти тратят и прочее.</li>
+</ul>
+<p>Документацию и установку можно найти на <a href="https://github.com/bcicen/ctop">github</a>.</p>
+<ul>
+<li><code>hadolint</code> - инструмент который проверяет корректность написания Dockerfile.</li>
+</ul>
+<p><a href="https://hadolint.github.io/hadolint/">Ссылка на онлайн использование</a>.</p>
+<p><a href="https://github.com/hadolint/hadolint">Ссылка на репозиторий и документацию</a>.</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href=".." class="btn btn-neutral float-left" title="Главная"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../bash/" class="btn btn-neutral float-right" title="Bash">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href=".." style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../bash/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

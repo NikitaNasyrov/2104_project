@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Bash - Документация Nasyrov</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Bash";
+        var mkdocs_page_input_path = "bash.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> Документация Nasyrov
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Главная</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../docker/">Docker</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">Bash</a>
+    <ul class="current">
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../ansible/">Ansible</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">Документация Nasyrov</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Bash</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="bash">Bash</h1>
+<h1 id="_1">Содержание</h1>
+<ul>
+<li>
+<p><a href="#Основы">Основы</a></p>
+<ul>
+<li><a href="#Шебанг">Шебанг</a></li>
+<li><a href="#переменные">Переменные</a></li>
+<li><a href="#аргументы-командной-строки">Аргументы командной строки</a></li>
+<li><a href="#зарезервированные-переменные">Зарезервированные переменные</a></li>
+<li><a href="#условия">Условия</a></li>
+<li><a href="#циклы">Циклы</a></li>
+<li><a href="#Кейс">Кейс</a></li>
+<li><a href="#массивы">Массивы</a></li>
+<li><a href="#словарь">Словарь</a></li>
+<li><a href="#регулярные-выражения">Регулярные выражения</a></li>
+<li><a href="#функции">Функции</a></li>
+<li><a href="#debug">Debug</a></li>
+</ul>
+</li>
+<li>
+<p><a href="полезные-инструменты">Полезные инструменты</a></p>
+</li>
+</ul>
+<h1 id="_2">Основы</h1>
+<h2 id="_3">Шебанг</h2>
+<p><a href="#содержание">Наверх</a></p>
+<p>Для того чтобы скрипт всегда интерпретировался с помощью нужного интерпретатора,
+необходимо указать путь к исполняемому файлу с помощью shebang(шебанг).
+В данном примере используется интерпретатор bash.</p>
+<pre><code>#!/bin/bash
+</code></pre>
+<p>Так же можно использовать утилиту env.</p>
+<pre><code>#!/usr/bin/env bash
+</code></pre>
+<p>Преимущество использования второго подхода заключается в том,
+что он будет искать исполняемый файл bash в окружения $PATH.
+Если существует более одного пути к bash , скрипт будет использовать первый из них.</p>
+<p>После указания шебанга, и добавление прав файлу для запуска, можно запускать скрипт.</p>
+<p>Для того чтобы переопределить интерпретатор, установленный в шебанг,
+нужно запустить явно указав оболочку.</p>
+<pre><code>bash &lt;script-name&gt;
+</code></pre>
+<p>Переопределять интерпретатор не рекомендуются, т.к. может привести к неожиданному поведению.</p>
+<h2 id="_4">Переменные</h2>
+<p><a href="#содержание">Наверх</a></p>
+<p>Определение локальной переменной и присваивание ей значения.
+Так же нельзя использовать пробелы между <code>=</code>, т.к. интерпретатор посчитает это за команду.
+И будет выдана ошибка.</p>
+<pre><code>&lt;variable&gt;=&lt;value&gt;
+</code></pre>
+<p><em>Пример:</em></p>
+<pre><code>var=12345
+</code></pre>
+<p>Если переменная является строкой и содержит пробел, требуется использовать кавычки.</p>
+<p><em>Пример:</em></p>
+<pre><code>var="Hello world"
+</code></pre>
+<p>Для использования переменных перед ними требуется использовать <code>$</code>,
+иначе будет восприниматься как просто текст.</p>
+<p><em>Примеры:</em></p>
+<pre><code>var=12345
+echo $var
+&gt; 12345
+
+var=12345
+echo var
+&gt; var
+</code></pre>
+<p>При использовании одинарных кавычек <code>'</code>, каждый символ будет обрабатываться буквально.
+При двойных кавычках <code>"</code>, будет происходить подстановка переменных.</p>
+<p><em>Примеры:</em></p>
+<pre><code>var='Hello world'
+echo $var
+&gt; Hello world
+
+new_var="Hello $var"
+echo $new_var
+&gt; Hello Hello world
+
+
+new_var='Hello $var'
+echo $new_var
+&gt; Hello $var
+</code></pre>
+<p>Хорошей практикой считается использовать фигурные скобки
+и двойные кавычки при использовании переменной.</p>
+<p>Фигурные скобки - для того, чтобы избавиться от неоднозначности при разборе строки.</p>
+<p>Двойные кавычки - для того, если в переменной будет храниться текст,
+чтобы небыло неоднозначного использования выходных значений в переменной.</p>
+<h2 id="_5">Аргументы командной строки</h2>
+<p><a href="#содержание">Наверх</a></p>
+<p>При запуске программы можно передать аргументы скрипту.</p>
+<pre><code>./&lt;script-name&gt; &lt;arg-1&gt; [&lt;arg-n&gt; ...]
+</code></pre>
+<p>Для того чтобы использовать в скрипте используется <code>$&lt;number&gt;</code>.</p>
+<ul>
+<li><code>$0</code> - имя скрипта Bash.</li>
+<li><code>$1-$9</code> - Первые 9 аргументов для скрипта Bash.</li>
+</ul>
+<p>Для использования 10-ого и последующих чисел требуется использовать фигурные скобки.</p>
+<pre><code>echo ${10}
+</code></pre>
+<p>Так же есть специальные переменные для удобного использования аргументов.</p>
+<ul>
+<li><code>$#</code> - Количество переданных аргументов.</li>
+<li><code>$@</code> - Все аргументы переданные скрипту.</li>
+<li><code>$*</code> - все аргументы переданные скрипту, выводятся в строку.</li>
+</ul>
+<h2 id="_6">Зарезервированные переменные</h2>
+<p><a href="#содержание">Наверх</a></p>
+<p>Имеются специальные зарезервированные переменные для удобного использования.</p>
+<p>Одни из самых часто используемых:</p>
+<ul>
+<li><code>$?</code> - Статус выхода последнего процесса.</li>
+<li><code>$USER</code> - имя пользователя, выполняющего скрипт.</li>
+<li><code>$HOSTNAME</code> - имя хоста, на котором запущен скрипт.</li>
+<li><code>$SECONDS</code> - количество секунд с момента запуска скрипта.</li>
+<li><code>$RANDOM</code> - Возвращает случайное число каждый раз, когда он упоминается.</li>
+<li><code>$LINENO</code> - возвращает текущий номер строки.</li>
+<li><code>$EDITOR</code> - текстовый редактор по умолчанию.</li>
+<li><code>$HOME</code> - домашний каталог пользователя.</li>
+<li><code>$HOSTNAME</code> - hostname машины.</li>
+<li><code>$OSTYPE</code> - тип ОС.</li>
+<li><code>$PATH</code> - путь поиска программ.</li>
+</ul>
+<h2 id="_7">Условия</h2>
+<p><a href="#содержание">Наверх</a></p>
+<p>Конструкция if.</p>
+<pre><code>if CONDITION
+then
+    STATEMENT
+elif CONDITION
+then
+    STATEMENT
+esle
+    STATEMENT
+fi
+</code></pre>
+<p>Так же можно <code>then</code> использовать на этой же строке, но перед ней требуется поставить <code>;</code>.</p>
+<pre><code>if CONDITION; then
+    STATEMENT
+elif CONDITION; then
+    STATEMENT
+esle
+    STATEMENT
+fi
+</code></pre>
+<p>Так же можно отбросить отбросить elif или else, если это не нужно.</p>
+<p>Содержимое сразу после if может быть любой командой, если она дает код выхода.
+Если команда возвращает код выхода 0 (это код успешно выполненной операции),
+тогда запускается код внутри ветки then.
+Иначе происходит переходит к следующей ветке.</p>
+<p>Для того чтобы использовать условие используются квадратные и круглые скобки.</p>
+<p><code>[</code> - это команда. Поэтому требуется использовать пробел между ней.
+Это синтаксический сахар, который проверяет и сравнивает переданные аргументы.</p>
+<p><code>]</code> - это аргумент для команды <code>[</code>, который сообщает для прекращения проверки аргументов.
+Операторы -lt, -gt являются аргументами.
+Поэтому знаки <code>&gt;</code> и <code>&lt;</code> странно себя ведут внутри одинарных квадратных скобок.
+Интерпретатор пытается перенаправить input или output внутри команды.</p>
+<p><code>[[ Двойные квадратные скобки ]]</code> - работают так же, как и одинарные квадратные скобки,
+но имеют дополнительные возможности вроде лучшей поддержки регулярных выражений.</p>
+<p><code>(( Двойные круглые скобки ))</code> - это конструкция, для осуществления арифметических вычислений.</p>
+<p>Их можно использовать даже без if, как пример инкриминтирование счётчика.</p>
+<pre><code>(( count++ ))
+</code></pre>
+<p>Круглые скобки тоже при каждом запуске возвращают код выхода.
+Если результат в скобках равен нулю, возвращается код выхода 1, нулевой результат это fasle.
+Любой другой результат считается истиной, при нем код выхода будет 0.</p>
+<p>Знаки <code>&gt;</code> и <code>&lt;</code> внутри круглых скобок работают правильно.
+Если сравнение истинно, результат будет 1. В противном случае – 0.</p>
+<p>Булевы операторы ! (не), &amp;&amp; (и), || (или) так же используются для выражений, как и в других языках.</p>
+<pre><code>if [[ CONDITION ]] &amp;&amp; ! [[ CONDITION ]] || [[ CONDITION ]]
+then
+    ...
+fi
+</code></pre>
+<p>Часто используемые операторы:</p>
+<ul>
+<li><code>-n VAR</code> - True, если длина VAR больше нуля.</li>
+<li><code>-z VAR</code> - True, если VAR пусто.</li>
+<li><code>STRING_1 = STRING_2</code> - True, если STRING_1 и STRING_2 равны.</li>
+<li><code>STRING_1 != STRING_2</code> - True, если STRING_1 и STRING_2 не равны.</li>
+<li><code>INTEGER_1 -eq INTEGER_2</code> - True, если INTEGER_1 и INTEGER_2 равны.</li>
+<li><code>INTEGER_1 -ne INTEGER_2</code> - True, если INTEGER_1 и INTEGER_2 не равны.</li>
+<li><code>INTEGER_1 -gt INTEGER_2</code> - True, если INTEGER_1 больше чем INTEGER_2.</li>
+<li><code>INTEGER_1 -lt INTEGER_2</code> - True, если INTEGER_1 меньше, чем INTEGER_2.</li>
+<li><code>INTEGER_1 -ge INTEGER_2</code> - True, если INTEGER_1 равно или больше, чем INTEGER_2.</li>
+<li><code>INTEGER_1 -le INTEGER_2</code> - True, если INTEGER_1 равно или меньше чем INTEGER_2.</li>
+<li><code>$string =~ $substring</code> - поиск строки в подстроке.</li>
+<li><code>-h FILE</code> - True, если FILE существует и является символической ссылкой.</li>
+<li><code>-r FILE</code> - True, если FILE существует и доступно для чтения.</li>
+<li><code>-w FILE</code> - True, если FILE существует и доступна для записи.</li>
+<li><code>-x FILE</code> - True, если FILE существует и является исполняемым.</li>
+<li><code>-d FILE</code> - True, если FILE существует и является каталогом.</li>
+<li><code>-e FILE</code> - True, если FILE существует и является файлом, независимо от типа.</li>
+<li><code>-f FILE</code> - True, если FILE существует и является обычным файлом (не каталогом или устройством).</li>
+<li><code>-s file</code> - True, если существует файл, и не является он пустым.</li>
+<li><code>FILE1 -nt FILE2</code> True, если новее ли FILE1, чем FILE2.</li>
+<li><code>FILE1 -ot FILE2</code> True, если старше ли FILE1, чем FILE2.</li>
+<li><code>-O file</code> - True, если существует файл, и является его владельцем текущий пользователь.</li>
+<li><code>-G file</code> - True, если существует файл,
+и соответствует его идентификатор группы идентификатору группы текущего пользователя.</li>
+</ul>
+<h2 id="_8">Циклы</h2>
+<p><a href="#содержание">Наверх</a></p>
+<p>Существуют 2 вида for циклов. Bash и Си подобные.</p>
+<pre><code>for &lt;variable&gt; in &lt;array&gt;
+do
+    ...
+done
+</code></pre>
+<p><em>Пример:</em></p>
+<p>Перебор чисел от 1 до 10.</p>
+<pre><code>for i in $(seq 1 10)
+do
+    echo "$i"
+done
+</code></pre>
+<p>В параметры цикла можно передавать практически что угодно.
+Как пример, если нужно обработать файлы нужной директории,
+то можно передать команду <code>$(ls /path/to/dir)</code>,
+и каждый файл будет отдельно обрабатываться.</p>
+<p>Цикл из си.</p>
+<pre><code>for (( i=0; i&lt;10; i++ ))
+do
+    ...
+done
+</code></pre>
+<p>Циклы из Си можно так же использовать в bash,
+но на практике они встречаются гораздо меньше.</p>
+<p>Цикл while.</p>
+<pre><code>while [[ CONDITION ]]
+do
+    ...
+done
+</code></pre>
+<p>В циклах можно использовать стандартные слова <code>break</code> и <code>continue</code>.</p>
+<p><em>Пример:</em></p>
+<p>Использование continue при выводе чисел.</p>
+<pre><code>for i in $(seq 1 10)
+do
+    if [[ $i -eq 5 ]]
+    then
+        continue;
+    fi
+    echo "$i"
+done
+</code></pre>
+<h2 id="_9">Кейс</h2>
+<p><a href="#содержание">Наверх</a></p>
+<p>Конструкция case.</p>
+<pre><code>case EXPRESSION in
+
+  PATTERN_1)
+    STATEMENTS
+    ;;
+
+  PATTERN_2)
+    STATEMENTS
+    ;;
+
+  PATTERN_N)
+    STATEMENTS
+    ;;
+
+  *)
+    STATEMENTS
+    ;;
+esac
+</code></pre>
+<p>Каждая конструкция должна оканчиваться <code>;;</code>.</p>
+<p>Кейс с <code>*</code> отвечает любые другие возможные значения.</p>
+<p>В одном шаблоне можно использовать несколько возможных вариантов.</p>
+<pre><code>case EXPRESSION in
+
+  PATTERN_1 | PATTERN_2 | PATTERN_3)
+    STATEMENTS
+    ;;
+</code></pre>
+<h2 id="_10">Массивы</h2>
+<p><a href="#содержание">Наверх</a></p>
+<p>Массивы можно перебирать двмя способами:</p>
+<ul>
+<li><code>*</code> - вывод всех элементов в одной строке.</li>
+<li><code>@</code> - позволяет разбить массив на отдельные элементы.</li>
+</ul>
+<p>Конструкции для вывода массивов:</p>
+<ul>
+<li><code>${array[@]}</code> - все записи в массиве.</li>
+<li><code>${!array[@]}</code> - все индексы в массиве.</li>
+<li><code>${#array[@]}</code> - количество записей в массиве.</li>
+<li><code>${#array[0]}</code> - длина первой записи (нумерация с нуля).</li>
+</ul>
+<p>Вывод массива используя индексы.</p>
+<pre><code>array=(1 3 4 6 7 10 15 20)
+
+for i in "${!array[@]}"
+do
+    echo "index - $i, element - ${array[i]}"
+done
+</code></pre>
+<p>Вывод массива используя элементы массива.</p>
+<pre><code>array=(1 3 4 6 7 10 15 20)
+
+for elem in "${array[@]}"
+do
+    echo "element - ${elem}"
+done
+</code></pre>
+<p>Вывод количества элеметов в массиве.</p>
+<pre><code>echo "${#array[@]}"
+</code></pre>
+<p>Вывод определённого элемента массива.</p>
+<pre><code>echo "${array[0]}"
+</code></pre>
+<p>Вывод диапазон элементов.</p>
+<pre><code>echo "${array[&amp;]:0:5}"
+</code></pre>
+<p>Запись в массив вывода из команды.</p>
+<pre><code>list=( $(ls /) )
+</code></pre>
+<p>Перезапись определённого элемента.</p>
+<pre><code>array[0]=3
+</code></pre>
+<p>Добавление элемента в массив.</p>
+<pre><code>array+=(25)
+</code></pre>
+<p>Для удаления из массива элемента используется специальная команда <code>unset</code>.</p>
+<pre><code>unset "array[2]"
+</code></pre>
+<p>Сортировка массива по возрастанию.
+Если требуется отсортировать по убыванию нужно добавить флаг <code>-r</code>.</p>
+<pre><code>array=(10 85 63 3 4 6 7 10 15 20)
+array_s=($(printf '%s\n' "${array[@]}" | sort -n))
+echo "${array_s[@]}"
+</code></pre>
+<p>Массивы не требуют, чтобы последовательность элементов в массиве была непрерывной.
+Обращение к неинициализированным элементам дает пустую строку.</p>
+<pre><code>array=(1 3 4 6 7 [10]=10 15 [20]=20)
+
+for i in "${!array[@]}"
+do
+    echo "index - $i, element - ${array[i]}"
+done
+echo "count element - ${#array[@]}"
+</code></pre>
+<p>Вывод.</p>
+<pre><code>index - 0, element - 1
+index - 1, element - 3
+index - 2, element - 4
+index - 3, element - 6
+index - 4, element - 7
+index - 10, element - 10
+index - 11, element - 15
+index - 20, element - 20
+count element - 8
+</code></pre>
+<h2 id="_11">Словарь</h2>
+<p><a href="#содержание">Наверх</a></p>
+<p>Словарь создаётся с помощью массивов.</p>
+<pre><code>declare -A dictionary=([key1]=75 [key2]=82 [key3]=83 [key4]=72)
+</code></pre>
+<p>Вывод всех элементов словаря.</p>
+<pre><code>for key in "${!dictionary[@]}"; do
+    echo "$key - ${dictionary[$key]}"
+done
+</code></pre>
+<p>Обращение к определённому элементу словаря.</p>
+<pre><code>echo "${dictionary[key2]}"
+</code></pre>
+<h2 id="_12">Регулярные выражения</h2>
+<p><a href="#содержание">Наверх</a></p>
+<ul>
+<li><code>.</code> - любой символ.</li>
+<li><code>[ ]</code> - диапазон символов.</li>
+<li><code>[^ ]</code> - все символы, кроме указанных в фигурных скобках.</li>
+<li><code>*</code> - любое количество символов, в том числе и ноль.</li>
+<li><code>+</code> - один или несколько символов или выражений.</li>
+<li><code>?</code> - ноль или один символ или выражение.</li>
+<li><code>{n}</code> - предыдущий символ должен повторяться n раз.</li>
+<li><code>{n,}</code> - предыдущий символ может повторяться не меньше n символов.</li>
+<li><code>{n m}</code> - предыдущий символ может повторяться от n до m раз.</li>
+<li><code>{,m}</code> - предыдущий символ может повторяться не более m раз.</li>
+<li><code>\</code> - экранирование спецсимволов.</li>
+<li><code>^</code> - начало строки.</li>
+<li><code>$</code> - конец строки.</li>
+<li><code>^$</code> - соответствие пустой строки.</li>
+</ul>
+<p>Альтернативный способ указания диапазонов.</p>
+<ul>
+<li><code>[:alnum:]</code> - алфавитные символы и цифры. Эквивалентно выражению [A-Za-z0-9].</li>
+<li><code>[:alpha:]</code> - символы алфавита. Эквивалентно выражению [A-Za-z].</li>
+<li><code>[:blank:]</code> - символ пробела или символ табуляции.</li>
+<li><code>[:cntrl:]</code> - управляющие символы (control characters).</li>
+<li><code>[:digit:]</code> - набор десятичных цифр. Эквивалентно выражению [0-9].</li>
+<li><code>[:print:]</code> (печатаемые символы) - набору символов из диапазона ASCII 32 - 126.</li>
+<li><code>[:graph:]</code> (печатаемые символы) - соответствует набору символов из диапазона ASCII 33 - 126.
+То же самое, что и <code>[:print:]</code>, за исключением символа пробела.</li>
+<li><code>[:lower:]</code> - набор алфавитных символов в нижнем регистре. Эквивалентно выражению [a-z].</li>
+<li><code>[:upper:]</code> - наборы символов алфавита в верхнем регистре. Эквивалентно выражению [A-Z].</li>
+<li><code>[:space:]</code> - пробельные символы (пробел и горизонтальная табуляция).</li>
+<li><code>[:xdigit:]</code> - набор шестнадцатеричных цифр. Эквивалентно выражению [0-9A-Fa-f].</li>
+</ul>
+<h2 id="_13">Функции</h2>
+<p><a href="#содержание">Наверх</a></p>
+<p>Объявление функции.</p>
+<pre><code>function &lt;function-name&gt; {
+}
+</code></pre>
+<p>Или.</p>
+<pre><code>function &lt;function-name&gt;() {
+}
+</code></pre>
+<p>Или.</p>
+<pre><code>&lt;function-name&gt;() {
+}
+</code></pre>
+<p>Возвращения значения.</p>
+<pre><code>function &lt;function-name&gt; {
+    return $&lt;return-value&gt;
+}
+</code></pre>
+<p>Принять возвращаемое значение функции.</p>
+<pre><code>result=$(&lt;function-name&gt;)
+</code></pre>
+<p>Или.</p>
+<pre><code>&lt;function-name&gt;
+echo "$?"
+</code></pre>
+<p>Передача аргументов функции.</p>
+<pre><code>&lt;function-name&gt; $value 10 20
+</code></pre>
+<p>Для обработки переменных, которых передали функции,
+используется <code>$</code> и номер переданной переменной.</p>
+<pre><code>function &lt;function-name&gt;() {
+    echo $1
+}
+
+&lt;function-name&gt; "test"
+</code></pre>
+<p><em>Примеры:</em></p>
+<p>Функция сложения двух чисел.</p>
+<pre><code>function sum() {
+    return $(( $1 + $2 ))
+}
+
+result=$(sum 10 20)
+echo $result
+</code></pre>
+<h2 id="debug">Debug</h2>
+<p><a href="#содержание">Наверх</a></p>
+<p>Для того чтобы использовать debug и понимать,
+что происходит в программе, нужно в начале програмы прописать.</p>
+<pre><code>trap 'echo "# $BASH_COMMAND";read' DEBUG
+</code></pre>
+<p>После этого будет выводиться команда и вывод команды если он есть.</p>
+<h1 id="_14">Полезные инструменты</h1>
+<p><a href="#содержание">Наверх</a></p>
+<ul>
+<li><code>shellcheck</code> - инструмент для статического анализа кода и повышения качества скриптов.</li>
+</ul>
+<p>Использование локально.</p>
+<pre><code>shellcheck your_script.sh
+</code></pre>
+<p>Либо его можно использовать <a href="https://www.shellcheck.net/">онлайн</a>.</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../docker/" class="btn btn-neutral float-left" title="Docker"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../ansible/" class="btn btn-neutral float-right" title="Ansible">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../docker/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../ansible/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
