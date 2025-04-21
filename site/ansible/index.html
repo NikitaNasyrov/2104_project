@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Ansible - Документация Nasyrov</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Ansible";
+        var mkdocs_page_input_path = "ansible.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> Документация Nasyrov
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Главная</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../docker/">Docker</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../bash/">Bash</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">Ansible</a>
+    <ul class="current">
+    </ul>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">Документация Nasyrov</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Ansible</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="ansible">Ansible</h1>
+<h1 id="_1">Содержание</h1>
+<ul>
+<li>
+<p><a href="#начало-работы">Начало работы</a></p>
+<ul>
+<li><a href="#установка">Установка</a></li>
+</ul>
+</li>
+<li>
+<p><a href="#словарь">Словарь</a></p>
+</li>
+<li>
+<p><a href="#структура-файлов">Структура файлов</a></p>
+<ul>
+<li><a href="#первоначальная-настройка-ansible">Первоначальная настройка ansible</a></li>
+<li><a href="#древовидная-структура-файлов">Древовидная структура файлов</a></li>
+</ul>
+</li>
+<li>
+<p><a href="#инвентарный-файл">Инвентарный файл (hosts)</a></p>
+<ul>
+<li><a href="#ini">ini</a></li>
+<li><a href="#yml">yml</a></li>
+</ul>
+</li>
+<li>
+<p><a href="#playbook">Playbook</a></p>
+<ul>
+<li><a href="#переменные">Переменные (vars)</a></li>
+<li><a href="#модули">Модули</a></li>
+<li><a href="#условия">Условия (when)</a></li>
+<li><a href="#циклы">Циклы (loop)</a></li>
+</ul>
+</li>
+<li>
+<p><a href="#роли">Роли</a></p>
+<ul>
+<li><a href="#создание-роли">Создание роли</a></li>
+<li><a href="#директории-в-роли">Директории в роли</a></li>
+<li><a href="#requirements">Requirements</a></li>
+<li><a href="#handlers">Handlers</a></li>
+</ul>
+</li>
+<li>
+<p><a href="#шаблоны">Шаблоны</a></p>
+<ul>
+<li><a href="#параметры-в-файлах">Параметры в файлах</a></li>
+<li><a href="#условие">Условие</a></li>
+<li><a href="#цикл">Цикл</a></li>
+<li><a href="#фильтры">Фильтры</a></li>
+</ul>
+</li>
+<li>
+<p><a href="#тестирование">Тестирование</a></p>
+<ul>
+<li><a href="#установка">Установка</a></li>
+<li><a href="#иницилизация-роли">Иницилизация роли</a></li>
+<li><a href="#запуск-тестирования">Запуск тестирования</a></li>
+</ul>
+</li>
+<li>
+<p><a href="#полезные-ссылки">Полезные ссылки</a></p>
+</li>
+</ul>
+<h1 id="_2">Начало работы</h1>
+<h2 id="_3">Установка</h2>
+<p><a href="#содержание">Наверх</a></p>
+<p>Установить Ansible можно 2 способами:</p>
+<ul>
+<li>Через пакетный менеджер Linux.</li>
+<li>Через менеджер python - pip.</li>
+</ul>
+<p>Полная
+<a href="https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html">документация по установке для Linux</a>.</p>
+<h1 id="_4">Словарь</h1>
+<p><a href="#содержание">Наверх</a></p>
+<ul>
+<li><code>Hosts</code> - инвентарный файл, где описываются хосты, группы хостов,
+а так же хранятся переменные для этих хостов.</li>
+<li><code>Inventories</code> - директория, где хранятся инвентарные файлы,
+а также переменные для групп и хостов.</li>
+<li><code>Task</code> - минимальный элемент описания конфигурации в котором описано состояние объекта.</li>
+<li><code>Role</code> - логически завершенный и обосновано выделенный набор tasks,
+который в дальнейшем используется для применения повторяющейся конфигурации в разных playbooks.</li>
+<li><code>Playbook</code> - файл с полным описанием конфигурации для конкретных хоста/группы,
+включает в себя tasks и roles.</li>
+<li><code>Vars</code> - переменные, используемые для вариативности параметров конфигурации
+в зависимости от хоста/группы/роли/etc.</li>
+<li><code>Module</code> - многоразовый автономный сценарий, который возможно конфигурировать от своих задач.</li>
+<li><code>Requirements</code> - файл с перечнем Ansible-ролей.</li>
+</ul>
+<p>Список всех терминов в <a href="http://docs.ansible.com/ansible/devel/glossary.html">документации</a>.</p>
+<h1 id="_5">Структура файлов</h1>
+<p><a href="#содержание">Наверх</a></p>
+<ul>
+<li><code>ansible.cfg</code> - первоначальная настройка для ansible.</li>
+<li><code>playbook-name.yml</code> - ansible-playbook, в котором описаны задачи.</li>
+<li><code>requirements.yml</code> - файл с перечнем ansible-ролей, отдельно вынесенных задач.</li>
+<li><code>inventories</code> - директория для инвентарей ansible.</li>
+<li><code>hosts</code> - файл инвентаризации для рабочих серверов.</li>
+</ul>
+<h2 id="ansible_1">Первоначальная настройка ansible</h2>
+<p><a href="#содержание">Наверх</a></p>
+<p>Конфигурационный файл <code>ansible.cfg</code> может находиться в таких местах,
+и в таком приоритете происходит поиск файла.</p>
+<ul>
+<li><code>ANSIBLE_CONFIG</code> - переменная среды, если установлена.</li>
+<li><code>./ansible.cfg</code> – в текущей директории.</li>
+<li><code>~/.ansible.cfg</code> — в домашней директории пользователя.</li>
+<li><code>/etc/ansible/ansible.cfg</code> — в стандартной директории ansible.</li>
+</ul>
+<p><a href="https://docs.ansible.com/ansible/latest/reference_appendices/config.html">Полная документация по ansible.cfg</a>.</p>
+<p><a href="https://docs.ansible.com/ansible/latest/reference_appendices/config.html#common-options">Полный список параметров</a>.</p>
+<h2 id="_6">Древовидная структура файлов</h2>
+<p><a href="#содержание">Наверх</a></p>
+<p><a href="https://docs.ansible.com/ansible/2.8/user_guide/playbooks_best_practices.html#alternative-directory-layout">Один из вариантов</a>
+правильной структуры директории.</p>
+<pre><code>inventories/
+   production/
+      hosts                 # файл инвентаризации для рабочих серверов
+      group_vars/
+         group1.yml         # назначение переменных определенным группам
+         group2.yml
+      host_vars/
+         hostname1.yml      # назначение переменных определенным системам
+         hostname2.yml
+
+   development/
+      hosts
+      group_vars/
+         group1.yml
+         group2.yml
+      host_vars/
+         hostname1.yml
+         hostname2.yml
+
+library/                    # если есть пользовательские модули (опционально)
+module_utils/               # если какие-либо пользовательские утилиты для поддержки модулей (опционально)
+filter_plugins/             # если какие-либо настраиваемые плагины фильтров (опционально)
+
+site.yml                    # playbooks
+webservers.yml
+dbservers.yml
+
+roles/
+    role1/
+    role2/
+    role3/
+    role4/
+</code></pre>
+<h1 id="_7">Инвентарный файл</h1>
+<p><a href="#содержание">Наверх</a></p>
+<p>Инвентарный файл - хост или перечень хостов, с которыми будет происходить работа.</p>
+<p>Инвентарный файл можно описать в формате ini или yml.</p>
+<h2 id="ini">ini</h2>
+<p><a href="#содержание">Наверх</a></p>
+<p><code>[]</code> - В скобки указывается название группы серверов.</p>
+<pre><code>[web]
+web1
+web2
+
+[db]
+db1
+db2
+</code></pre>
+<p>Частоиспользуемые ключи:</p>
+<ul>
+<li><code>ansible_host</code> - ip адрес.</li>
+<li><code>ansible_user</code> - имя пользователя для подключения на удаленный сервер.</li>
+<li><code>ansible_sudo_pass</code> - Пароль для подключения sudo пользователя.</li>
+<li><code>ansible_pass</code> - Пароль пользователя.</li>
+<li><code>ansible_ssh_private_key_file</code> - путь до закрытого ключа. Для входа без участия пароля.</li>
+<li><code>ansible_port</code> - порт подключения ssh.</li>
+</ul>
+<p><em>Пример:</em></p>
+<pre><code>[example]
+example1
+ansible_host=0.0.0.0
+ansible_user=user
+ansible_ssh_private_key_file=/home/user/.ssh/id_rsa
+ansible_port=2222
+</code></pre>
+<p>Все ключи можно посмотреть в
+<a href="https://docs.ansible.com/ansible/latest/user_guide/intro_inventory.html#connecting-to-hosts-behavioral-inventory-parameters">документации</a>.</p>
+<h2 id="yml">yml</h2>
+<p><a href="#содержание">Наверх</a></p>
+<p><code>hosts</code> - указываются точки доступа, которые не имеют какой-то группы.</p>
+<p><code>children</code> - указываются названия группы серверов и внутри идёт имя группы.
+И дальше идёт перечисление названий серверов, и как подключаться.</p>
+<p>Пример yml файла.</p>
+<pre><code class="language-yaml">---
+all:
+  hosts:
+    dev:
+  children:
+    web:
+      hosts:
+        web1:
+        web2:
+    db:
+      hosts:
+        db1:
+        db2:
+</code></pre>
+<p>Также можно указывать нужные прараметры как и в ini формате.</p>
+<p><em>Пример:</em></p>
+<pre><code class="language-yaml">---
+all:
+  children:
+    example:
+      example1:
+        ansible_host: 0.0.0.0
+        ansible_user: user
+        ansible_ssh_private_key_file: /home/user/.ssh/id_rsa
+        ansible_port: 2222
+      example2:
+        ansible_host: 0.0.0.0
+        ansible_user: user
+        ansible_ssh_private_key_file: /home/user/.ssh/id_rsa
+        ansible_port: 2222
+</code></pre>
+<h1 id="playbook">Playbook</h1>
+<h2 id="_8">Переменные</h2>
+<p><a href="#содержание">Наверх</a></p>
+<p>Переменные предназначены для хранения значений, которые могут использоваться в playbook.</p>
+<p>Для инициализации или переопределения в плэйбуке переменных, используется <code>vars</code>.</p>
+<pre><code class="language-yaml">vars:
+  &lt;variable&gt;: &lt;value&gt;
+</code></pre>
+<p>Для использования переменных нужно заключать их в двойные фигурные скобки - <code>{{ }}</code>,
+и обязательно внутри скобочек переменная должна отделяться пробелами.</p>
+<p>Так же хорошей практикой считается,
+заключать всю переменную в двойные кавычки, где используется подстановка.</p>
+<p><em>Примеры:</em></p>
+<pre><code class="language-yaml">file:
+  path: &quot;{{ path_to_file }}&quot;
+
+file:
+  path: &quot;~/directory/{{ file_name }}.txt&quot;
+</code></pre>
+<p>Также переменные можно задавать в отдельном файле.</p>
+<pre><code class="language-yaml">&lt;variable&gt;: &lt;value&gt;
+</code></pre>
+<p>И после этого подключить этот файл к плейбуку. Для этого используется <code>vars_files</code>.</p>
+<pre><code class="language-yaml">vars_files:
+  - &lt;paht-to-file&gt;
+</code></pre>
+<p>Переменные можно определять как лист.</p>
+<pre><code class="language-yaml">list:
+  - var_1
+  - var_2
+  - var_3
+</code></pre>
+<p>Применение.</p>
+<pre><code class="language-yaml">&quot;{{ list[0] }}&quot;
+</code></pre>
+<p>Переменные можно определять как словарь.</p>
+<pre><code class="language-yaml">&lt;dictionary&gt;:
+  &lt;variable_1&gt;: &lt;value_1&gt;
+  &lt;variable_2&gt;: &lt;value_2&gt;
+</code></pre>
+<p>Применение.</p>
+<pre><code class="language-yaml">dictionary['variable_1']
+dictionary.variable_1
+</code></pre>
+<p>Переменные можно переопределять, и у них есть свои приоритеты.</p>
+<p><a href="https://docs.ansible.com/ansible/latest/user_guide/playbooks_variables.html#ansible-variable-precedence">Полный приоритет переменных</a>.</p>
+<h2 id="_9">Модули</h2>
+<p><a href="#содержание">Наверх</a></p>
+<p>Модули отвечают за действия, которые выполняет Ansible.
+При этом каждый модуль, как правило, отвечает за свою конкретную и небольшую задачу.</p>
+<p>Пример на модуле <a href="https://docs.ansible.com/ansible/latest/collections/ansible/builtin/file_module.html">file</a>.
+Модуль file нужен для создания/удаления файла.</p>
+<pre><code class="language-yaml">- name: create file
+  file:
+    path: /home/user/file.txt
+    owner: user
+    group: user
+    mode: '0777'
+    state: touch
+</code></pre>
+<ul>
+<li><code>name</code> - описание модуля.</li>
+<li><code>file</code> - имя модуля, в версиях выше 2.9 он называется ansible.builtin.file.</li>
+<li><code>path</code> - путь к файлу.</li>
+<li><code>owner</code> - владелец файла.</li>
+<li><code>group</code> - группа файла.</li>
+<li><code>mode</code> - права файла.</li>
+<li><code>state</code> - что требуется сделать. touch - создать файл.</li>
+</ul>
+<p>Каждый модуль имеет свои параметры и не имеет смысла расписывать их, и все модули можно найти на
+<a href="https://docs.ansible.com/ansible/2.9/modules/list_of_all_modules.html">официальном сайте Ansible</a>.</p>
+<p>Есть специальные модули
+<a href="https://docs.ansible.com/ansible/latest/collections/ansible/builtin/shell_module.html">shell</a> и
+<a href="https://docs.ansible.com/ansible/latest/collections/ansible/builtin/command_module.html">command</a>,
+их нужно использовать только в самый последний момент, когда нет вообще такого модуля.
+Как пример, когда вышла новое приложение, и под неё ещё не написали модули.</p>
+<p><code>shell</code> - запуск /bin/sh.</p>
+<p><code>command</code> - команды не будут обрабатываться через оболочку, поэтому такие переменные, как $HOME,
+и такие операции, как &lt;, &gt;, |, ; и &amp; не будут работать.</p>
+<p>Почему лучше использовать модули, а не команды shell.
+При исполнении сценария, asnible проверяет сделано ли уже это
+(скопирован ли файл, установлена ли программа и пр.),
+И если уже это сделано, то он ничего не делает.</p>
+<p>Есть специальный модуль для отладки плэйбука -
+<a href="https://docs.ansible.com/ansible/latest/collections/ansible/builtin/debug_module.html">debug</a>.</p>
+<h2 id="_10">Условия</h2>
+<p><a href="#содержание">Наверх</a></p>
+<p>Для проверки условия используется специальный параметр <code>when</code>.</p>
+<p>В условиях в Ansible для сравнения используются:
+* <code>==</code> - равно.
+* <code>!=</code> - не равно.
+* <code>&gt;</code> больше.
+* <code>&lt;</code> меньше.
+* <code>&gt;=</code> больше равно.
+* <code>&lt;=</code> меньше равно.</p>
+<p>Можно указать несколько условий с помощью операторов <code>and</code> и <code>or</code>.</p>
+<p>Для проверки вхождения символа или подстроки в строку используются операторы <code>in</code> и <code>not</code>.</p>
+<p><em>Примеры:</em></p>
+<p>Проверка семейства ОС.</p>
+<pre><code class="language-yaml">- name: Check OS family
+  debug: msg=&quot;This is Debian&quot;
+  when: ansible_os_family == &quot;Debian&quot;
+</code></pre>
+<p>Так же можно сохранить результат выполнения модуля в переменную.
+Для этого используется параметр <code>register</code>.</p>
+<pre><code class="language-yaml">- name: Check if admin logged
+  command: who
+  register: who_check
+
+- name: Print message if user admin not logged
+  debug: msg=&quot;User admin is not logged on remote host&quot;
+  when: not 'admin' in who_check.stdout
+</code></pre>
+<h2 id="_11">Циклы</h2>
+<p><a href="#содержание">Наверх</a></p>
+<p>Для циклов используется специальный параметр <code>loop</code>.</p>
+<p>В данном примере просто будет выведено сообщение с номерами массива prime.
+В параметр <code>loop</code>, просто передаётся массив, который требуется обойти,
+а дальше с помощью переменной <code>item</code> вызывается по одному элементу.</p>
+<pre><code class="language-yaml">vars:
+  prime: [2, 3, 5, 7, 11]
+tasks:
+  - name: Show first five prime numbers
+    debug:
+      msg: &quot;{{ item }}&quot;
+    loop: &quot;{{ prime }}&quot;
+</code></pre>
+<p>Как один из реальных примеров применения циклов.
+Создание пользователей из списка.</p>
+<pre><code class="language-yaml">- name: add users
+  ansible.builtin.user:
+    name: &quot;{{ item.username }}&quot;
+    password: &quot;{{ item.pass }}&quot;
+  loop:
+    - { username: user1, pass: password1 }
+    - { username: user2, pass: password2 }
+</code></pre>
+<h1 id="_12">Роли</h1>
+<h2 id="_13">Создание роли</h2>
+<p><a href="#содержание">Наверх</a></p>
+<p>Для создание роли используется ansible galaxy.
+И после этой команды будут созданы все стандартные директории для роли.</p>
+<pre><code>ansible-galaxy init &lt;role-name&gt;
+</code></pre>
+<h2 id="_14">Директории в роли</h2>
+<p><a href="#содержание">Наверх</a></p>
+<ul>
+<li><code>defaults</code> - содержится перечень всех переменных которые роль будет использовать,
+эти переменные могут перезаданы уровнем выше - плейбуком.</li>
+<li><code>files</code> - хранения файлов, которые могут быть скопированы, конкретно для роли.</li>
+<li><code>handlers</code> - специльные обработчки событий, для совершение действий.</li>
+<li><code>meta</code> - информация о роли, создатель, компания, для каких платформ, зависимости, теги.</li>
+<li><code>tasks</code> - директория, где хранятся все таски.</li>
+<li><code>templates</code> - директория, где хранятся шаблоны.</li>
+<li><code>tests</code> - директория для тестов.</li>
+<li><code>vars</code> - перечень переменных, но их нельзя переопределить выше.</li>
+</ul>
+<h2 id="requirements">Requirements</h2>
+<p><a href="#содержание">Наверх</a></p>
+<p>Для того чтобы вести зависимости проекта от требуемых ролей
+используется файл <code>requirements.yml</code>.</p>
+<p>Параметры в файле:</p>
+<ul>
+<li><code>src</code> - источник роли, указывается URL-адрес репозитория.</li>
+<li><code>scm</code> - если src является URL-адресом, нужно указать scm.
+Поддерживаются только git или hg. По умолчанию git.</li>
+<li><code>version</code> - версия роли для загрузки.
+Используется тег, хэш коммита или имя ветки. По умолчанию master.</li>
+<li><code>name</code> - переопределение имени роли. По умолчанию используется имя репозитория.</li>
+</ul>
+<p><em>Примеры:</em></p>
+<p>Использование https.</p>
+<pre><code>- src: https://github.com/bennojoy/nginx
+  scm: git
+  version: master
+  name: nginx_role
+</code></pre>
+<p>Использование ssh.</p>
+<pre><code>- src: git+ssh://git@github.com/bennojoy/nginx
+  version: master
+  name: nginx_role
+</code></pre>
+<p>При установке ролей по стандарту используется директория <code>~/.ansible/roles</code>.</p>
+<p>Установка из requirements.</p>
+<pre><code>ansible-galaxy install -r requirements.yml
+</code></pre>
+<p>Если требуется изменить путь до директории, то используется флаг <code>--roles-path</code>.</p>
+<pre><code>ansible-galaxy install --roles-path "&lt;path&gt;" -r requirements.yml
+</code></pre>
+<p><em>Пример:</em></p>
+<pre><code>ansible-galaxy install --roles-path ./roles -r requirements.yml
+</code></pre>
+<h2 id="handlers">Handlers</h2>
+<p><a href="#содержание">Наверх</a></p>
+<p><code>Handlers</code> - это специальные задачи.
+Они вызываются из других задач ключевым словом <code>notify</code>.</p>
+<p>Эти задачи срабатывают после выполнения всех задач в сценарии (play).
+При этом, если несколько задач вызвали одну и ту же задачу через notify,
+она выполнится только один раз.</p>
+<p>Для этого используется специальная директория <code>handlers</code>.</p>
+<p>Пример на установке nginx.
+Когда устанавливается nginx и то устанавливаются какие-то настройки конфигурации,
+и требуется после изменения настроек перезапустить nginx.</p>
+<p>Конфигурация задач для установки nginx в файле <code>tasks/main.yml</code>.
+Здесь, устанавливается последняя версия nginx,
+а также копируются конфигурационные файлы, для настройки nginx.</p>
+<pre><code class="language-yaml">- name: Install packages
+  ansible.builtin.apt:
+    name: nginx
+    state: latest
+
+- name: Create nginx config
+  ansible.builtin.template:
+    src: nginx.j2
+    dest: &quot;{{ setting_nginx__path_nginx_conf }}&quot;
+    mode: &quot;0644&quot;
+  notify:
+    - &quot;Reload service nginx&quot;
+</code></pre>
+<p>Файл <code>handlers/main.yml</code>, где указываются специальные задачи.</p>
+<pre><code class="language-yaml">---
+- name: Reload service nginx
+  ansible.builtin.service:
+    name: nginx
+    state: reloaded
+</code></pre>
+<p>Также можно вызвать выполнение задачу в определённый момент,
+если нужно обновить перед определённой задачей.</p>
+<pre><code class="language-yaml">ansible.builtin.meta: flush_handlers
+</code></pre>
+<h1 id="_15">Шаблоны</h1>
+<p><a href="#содержание">Наверх</a></p>
+<p><code>Шаблоны</code> - это простые текстовые файлы, содержащие параметры конфигурации.
+Во время выполнения плейбуков, переменные будут заменены соответствующими значениями.</p>
+<p>Кроме замены параметров также есть условные операторы, циклы,
+фильтры для преобразования данных, выполнение арифметических вычислений и т.д.</p>
+<h2 id="_16">Параметры в файлах</h2>
+<p><a href="#содержание">Наверх</a></p>
+<p>Файл с шаблоном имеет расширение <code>.j2</code> - механизм создания шаблонов Jinja2.</p>
+<p>Если шаблоны используется в роли,
+тогда создаётся директория <code>templates</code>, где и хранятся все шаблоны для нужной роли.</p>
+<p><em>Пример:</em></p>
+<p>Пример небольшого шаблона, для подстановки значений
+(все переменные должны быть объявлены).</p>
+<p>Файл <code>nginx.conf.j2</code>.</p>
+<pre><code>server {
+    listen {{ nginx_http_port }}
+    server_name {{ server_name }};
+    location / {
+        proxy_pass http://{{ ip_forward }}:{{ port_forward }};
+    }
+}
+</code></pre>
+<p>Копирование шаблона.</p>
+<pre><code>- name: Create nginx ssl config
+  ansible.builtin.template:
+    src: &quot;nginx.conf.j2&quot;
+    dest: &quot;/etc/nginx/conf.d/defaults.conf&quot;
+    mode: &quot;0644&quot;
+</code></pre>
+<h2 id="_17">Условие</h2>
+<p><a href="#содержание">Наверх</a></p>
+<p>В шаблонах можно использовать условия, для подстановки значений при различных данных.</p>
+<p><em>Шаблон:</em></p>
+<pre><code>{% if condition %}
+{% elif condition %}
+{% else %}
+{% endif %}
+</code></pre>
+<p><em>Пример:</em></p>
+<pre><code>server {
+    {% if nginx_port == &quot;80&quot; %}
+        listen {{ nginx_port }}
+
+    {% elif nginx_port == &quot;443&quot; %}
+        listen {{ nginx_port }} ssl;
+        server_name example.com;
+        ssl_certificate example.com.crt;
+        ssl_certificate_key example.com.key;
+
+    {% endif %}
+
+    server_name {{ server_name }};
+    location / {
+        proxy_pass http://{{ ip_forward }}:{{ port_forward }};
+    }
+}
+</code></pre>
+<h2 id="_18">Цикл</h2>
+<p><a href="#содержание">Наверх</a></p>
+<p>Цикл предназначен для перебора и обрабоки массива значений.</p>
+<p><em>Шаблон:</em></p>
+<pre><code>{% for item in array %}
+{% endfor %}
+</code></pre>
+<p><em>Пример:</em></p>
+<pre><code>{% for person in people %}
+    {{ person }}
+{% endfor %}
+</code></pre>
+<h2 id="_19">Фильтры</h2>
+<p><a href="#содержание">Наверх</a></p>
+<p>Фильтры позволяют преобразовывать данные JSON в данные YAML,
+разбивать URL-адреса для извлечения имени хоста,
+получать хеш SHA1 строки, добавлять или умножать целые числа и многое другое.</p>
+<p><em>Примеры:</em></p>
+<p>Указание значение переменной по умолчанию.</p>
+<pre><code>{{ some_variable | default(5) }}
+</code></pre>
+<p>Вывод списка, только с уникальными значениями.</p>
+<pre><code>{{ some_list | unique }}
+</code></pre>
+<p>Объединение двух списков.</p>
+<pre><code>{{ some_list1 | union(some_list2) }}
+</code></pre>
+<p>Пересечение 2 списков (уникальный список всех элементов в обоих):</p>
+<pre><code>{{ some_list1 | intersect(some_list2) }}
+</code></pre>
+<p>Разница в 2 списках (элементы в 1, которые не существуют во 2):</p>
+<pre><code>{{ some_list1 | difference(some_list2) }}
+</code></pre>
+<p><a href="https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_filters.html">Полная документация по фильтрам</a>.</p>
+<h1 id="_20">Тестирование</h1>
+<p><a href="#содержание">Наверх</a></p>
+<p><code>Molecule</code> - фрэймворк, предназначенный для тестирования ролей в Ansible.</p>
+<h2 id="_21">Установка</h2>
+<p><a href="#содержание">Наверх</a></p>
+<p>Установка molecule.</p>
+<pre><code>python3 -m pip install molecule
+</code></pre>
+<p><a href="https://ansible.readthedocs.io/projects/molecule/">Документация по molecule</a></p>
+<h2 id="_22">Иницилизация роли</h2>
+<p><a href="#содержание">Наверх</a></p>
+<p>Molecule использует ansible-galaxy под капотом для создания обычных макетов ролей.
+Дополнительно создаётся директория molecule с нужными файлами.</p>
+<pre><code>molecule init role [namespace].[role_name] --driver-name [driver]
+</code></pre>
+<p>Файлы:</p>
+<ul>
+<li><code>molecule.yml</code> - это центральная точка входа.
+Можно настроить каждый инструмент, который Molecule будет использовать при тестировании.</li>
+<li><code>converge.yml</code> - это файл playbook, содержащий вызов роли.</li>
+<li><code>verify.yml</code> - это файл Ansible, позволяет писать специальные тесты
+для состояния контейнера после завершения выполнения роли.</li>
+</ul>
+<p>Также есть специальный файл <code>INSTALL.rst</code>, он не является обязательным,
+но содержит инструкции, какое дополнительное программное обеспечение
+или шаги по настройке нужно предпринять, чтобы взаимодействовать с драйвером.</p>
+<p><em>Примеры:</em></p>
+<p>Создание роли <code>nginx</code> с использованием драйвера docker.</p>
+<pre><code>molecule init role acme.nginx --driver-name docker
+</code></pre>
+<h2 id="_23">Запуск тестирования</h2>
+<p><a href="#содержание">Наверх</a></p>
+<p>Тестирование с помощью molecule запускается в корневой директории роли.</p>
+<p>Запуск создания экземпляра.</p>
+<pre><code>molecule create
+</code></pre>
+<p>Просмотр создания экзепляра.</p>
+<pre><code>molecule list
+</code></pre>
+<p>Запустить проверку роли.</p>
+<pre><code>molecule converge
+</code></pre>
+<p>Запуск тестирования роли.</p>
+<pre><code>molecule verify
+</code></pre>
+<p>Если требуется проверить экземпляр руками.</p>
+<pre><code>molecule login
+</code></pre>
+<p>Уничтожение экзепляра.</p>
+<pre><code>molecule destroy
+</code></pre>
+<p>Также есть команда, если требуется запустить сразу <code>create</code>,
+<code>converge</code>, <code>verify</code> и <code>destroy</code> по очереди.</p>
+<pre><code>molecule test
+</code></pre>
+<h2 id="_24">Тесты для проверки состояния</h2>
+<p><a href="#содержание">Наверх</a></p>
+<p>Для инфраструктуры можно (и нужно) писать тесты, которые проверяют,
+что нужный код исполнилняется верно, все нужные сервисы запускаются,
+файлы верно настроены и т.д.</p>
+<p>Сейчас по стандарту используется проверка инфраструктуры с помощью Ansible.
+Раньше было использование с применением testinfra написанная на Python.</p>
+<h1 id="_25">Полезные ссылки</h1>
+<p><a href="#содержание">Наверх</a></p>
+<p><a href="https://docs.ansible.com/ansible/latest/reference_appendices/special_variables.html">Специальные переменные от ansible</a>.</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../bash/" class="btn btn-neutral float-left" title="Bash"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../bash/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

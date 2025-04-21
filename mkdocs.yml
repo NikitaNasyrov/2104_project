@@ -1,4 +1,4 @@
-site_name: Документация NasyrovNA
+site_name: Документация Nasyrov
 theme: readthedocs
 nav:
   - Главная: index.md
