@@ -1,0 +1,7 @@
+site_name: Документация NasyrovNA
+theme: readthedocs
+nav:
+  - Главная: index.md
+  - Docker: docker.md
+  - Bash: bash.md
+  - Ansible: ansible.md
